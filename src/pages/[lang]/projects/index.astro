@@ -19,7 +19,7 @@ const projects = (await getCollection('portfolio', ({ id }) => {
 );
 ---
 
-<Layout title={`${(t as any)['portfolio.hero.title'].replace(/<[^>]*>?/gm, '')} - Cooper`} description={(t as any)['portfolio.hero.subtitle']}>
+<Layout siteTitle={t['portfolio.sitetitle']} title={`${(t as any)['portfolio.hero.title'].replace(/<[^>]*>?/gm, '')}`} description={(t as any)['portfolio.hero.subtitle']}>
 	<div class="max-w-7xl mx-auto px-6 pt-32 pb-12">
         <div class="mb-16">
             <h1 class="text-4xl md:text-6xl font-display font-bold mb-6" set:html={(t as any)['portfolio.hero.title']}></h1>

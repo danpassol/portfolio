@@ -21,7 +21,7 @@ const blogCollection = defineCollection({
 });
 
 const portfolioCollection = defineCollection({
-    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/portfolio" }),
+    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/projects" }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -45,25 +45,9 @@ const docsCollection = defineCollection({
     }),
 });
 
-const changelogCollection = defineCollection({
-    loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/changelog" }),
-    schema: z.object({
-        version: z.string(),
-        title: z.string(),
-        description: z.string(),
-        pubDate: z.coerce.date(),
-        type: z.enum(['major', 'feature', 'security', 'fix', 'improvement', 'planned', 'other']).default('feature'),
-        isSecurity: z.boolean().optional().default(false),
-        detailsUrl: z.string().optional(),
-        migrationUrl: z.string().optional(),
-        noindex: z.boolean().optional().default(false),
-        nofollow: z.boolean().optional().default(false),
-    }),
-});
 
 export const collections = {
 	'blog': blogCollection,
     'portfolio': portfolioCollection,
     'docs': docsCollection,
-    'changelog': changelogCollection,
 };

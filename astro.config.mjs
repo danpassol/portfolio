@@ -78,7 +78,7 @@ function getNoIndexUrls() {
 const noIndexUrls = getNoIndexUrls();
 console.log('Excluding URLs from sitemap:', noIndexUrls);
 
-const DEFAULT_LOCALE = "en";
+const DEFAULT_LOCALE = "es";
 
 import vercel from "@astrojs/vercel";
 import netlify from "@astrojs/netlify";
@@ -146,7 +146,7 @@ export default defineConfig({
   },
   i18n: {
     defaultLocale: DEFAULT_LOCALE,
-    locales: ["en", "ar", "fr", "de"],
+    locales: ["es", "en"],
     routing: {
         prefixDefaultLocale: true
     }

@@ -9,7 +9,7 @@ import '../styles/global.css';
 import AnnouncementBanner from '~/components/sections/AnnouncementBanner.astro';
 
 interface Props {
-	title?: string;
+	siteTitle?: string;
 	description?: string;
     image?: string;
     article?: boolean;
@@ -31,7 +31,7 @@ const t = useTranslations(lang);
 const brandName = (t as any)['brand.name'] || siteConfig.name;
 
 const { 
-    title = brandName, 
+    siteTitle = (t as any)['site.title'] || 'Portfolio',
     description = siteConfig.description, 
     image, 
     article = false,
@@ -40,6 +40,7 @@ const {
     availableLangs
 } = Astro.props;
 
+const title = `${siteTitle} | ${brandName}`;
 const dir = isRtl(lang) ? 'rtl' : 'ltr';
 ---
 
@@ -59,12 +60,10 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
             "@type": "Organization",
             "name": brandName,
             "url": Astro.site,
-            "logo": new URL(siteConfig.logo.src, Astro.site).toString(),
+            "logo": new URL(siteConfig.logo.srcDark, Astro.site).toString(),
             "sameAs": [
-                ACTION_LINKS.social?.twitter,
                 ACTION_LINKS.social?.github,
                 ACTION_LINKS.social?.linkedin,
-                ACTION_LINKS.social?.facebook
             ].filter(Boolean)
         }} />
          {Astro.url.pathname !== '/' && (
@@ -111,22 +110,10 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
         <Analytics />
         <slot name="head" />
 		</head>
-		<body class="min-h-screen flex flex-col antialiased bg-background text-foreground selection:bg-primary selection:text-white">
+		<body class="min-h-dvh flex flex-col antialiased bg-background text-foreground selection:bg-primary selection:text-white">
         <div class="fixed inset-0 z-[-1] bg-background"></div>
 
         <div class="fixed top-0 w-full z-50 flex flex-col items-stretch">
-            {siteConfig.announcement?.enabled && (
-                <AnnouncementBanner 
-                    id={siteConfig.announcement.id}
-                    message={t['announcement.message']}
-                    link={
-                        siteConfig.announcement.localizeLink && siteConfig.announcement.link
-                            ? getRelativeLocaleUrl(lang, siteConfig.announcement.link)
-                            : siteConfig.announcement.link
-                    }
-                    linkText={t['announcement.action']}
-                />
-            )}
             <Header availableLangs={availableLangs} />
         </div>
 		<main data-pagefind-body>

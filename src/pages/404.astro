@@ -5,7 +5,7 @@ import { ui, defaultLang, languages } from '~/i18n/ui';
 const t = ui[defaultLang] as any;
 ---
 
-<Layout title={t['404.title']} description={t['404.description']}>
+<Layout siteTitle={t['404.title']} description={t['404.description']}>
   <script is:inline define:vars={{ languages, defaultLang }}>
     // Detect if we are in a sub-path that belongs to a language
     const pathname = window.location.pathname;
@@ -23,7 +23,7 @@ const t = ui[defaultLang] as any;
   <div class="min-h-[80vh] flex flex-col items-center justify-center text-center relative overflow-hidden">
       <!-- Background Effect -->
       <div class="absolute inset-0 z-0 flex items-center justify-center opacity-20 pointer-events-none">
-          <div class="w-[600px] h-[600px] bg-red-500/20 rounded-full blur-[120px]"></div>
+          <div class="w-150 h-150 bg-red-500/20 rounded-full blur-[120px]"></div>
       </div>
 
       <div class="relative z-10 px-6">
