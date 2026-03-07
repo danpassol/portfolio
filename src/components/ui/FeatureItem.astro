@@ -8,18 +8,28 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<div class="relative group p-8 h-full rounded-3xl overflow-hidden bg-white/5 border border-white/10 hover:border-primary/50 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1">
-  <!-- Hover Gradient Background -->
-  <div class="absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-in-out"></div>
-  
+<div class="relative group p-8 h-full rounded-2xl overflow-hidden transition-all duration-400 hover:-translate-y-1"
+  style="background: var(--surface-2); border: 1px solid var(--surface-border);"
+  onmouseover="this.style.borderColor='rgba(74,143,232,0.3)'; this.style.boxShadow='0 12px 40px rgba(74,143,232,0.1)'"
+  onmouseout="this.style.borderColor='rgba(74,143,232,0.12)'; this.style.boxShadow='none'"
+>
+  <!-- Hover glow -->
+  <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+    style="background: radial-gradient(ellipse 80% 60% at 30% 0%, rgba(74,143,232,0.07) 0%, transparent 70%);">
+  </div>
+
   <div class="relative z-10 flex flex-col items-start h-full">
-    <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-inner group-hover:bg-primary group-hover:text-white group-hover:shadow-primary/50 ring-1 ring-white/10 ring-inset">
+    <!-- Icon wrapper -->
+    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+      style="background: rgba(74,143,232,0.1); color: #5ba3f5; border: 1px solid rgba(74,143,232,0.2);">
       <slot name="icon" />
     </div>
-    
-    <h3 class="text-xl font-bold mb-3 group-hover:text-primary transition-colors duration-300">{title}</h3>
-    
-    <p class="text-base text-muted-foreground leading-relaxed grow">
+
+    <h3 class="text-lg font-semibold mb-3 transition-colors duration-300 group-hover:text-electric">
+      {title}
+    </h3>
+
+    <p class="text-sm leading-relaxed grow" style="color: rgba(176,196,230,0.65);">
       {description}
     </p>
   </div>

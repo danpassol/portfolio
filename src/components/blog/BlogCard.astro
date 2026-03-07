@@ -25,51 +25,62 @@ const dateString = pubDate.toLocaleDateString(lang, {
 });
 ---
 
-<Card href={slug} class="p-0 overflow-hidden hover:shadow-primary/10 hover:-translate-y-1 block h-full group">
-  <div class="relative aspect-video w-full overflow-hidden bg-muted">
-    {heroImage ? (
-       <Image 
-         src={heroImage} 
-         alt={title} 
-         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-         width={600}
-         densities={[1.5, 2]}
-       />
-    ) : (
-        <div class="h-full w-full flex items-center justify-center bg-black/5 dark:bg-white/5">
-            <span class="text-4xl">📝</span>
+<div class="group block h-full rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1"
+  style="background: var(--surface-2); border: 1px solid rgba(74,143,232,0.12);"
+  onmouseover="this.style.borderColor='rgba(74,143,232,0.28)'; this.style.boxShadow='0 12px 40px rgba(74,143,232,0.1)'"
+  onmouseout="this.style.borderColor='rgba(74,143,232,0.12)'; this.style.boxShadow='none'"
+>
+  <a href={slug} class="block h-full">
+    <div class="relative aspect-video w-full overflow-hidden" style="background: var(--surface-3);">
+      {heroImage ? (
+        <Image
+          src={heroImage}
+          alt={title}
+          class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          width={600}
+          densities={[1.5, 2]}
+        />
+      ) : (
+        <div class="h-full w-full flex items-center justify-center">
+          <span class="text-4xl opacity-30">✦</span>
         </div>
-    )}
+      )}
 
-    {isVideo && (
-      <div class="absolute top-2 right-2 z-10">
-        <Badge variant="destructive" class="shadow-sm">
-          Video
-        </Badge>
+      {isVideo && (
+        <div class="absolute top-2 right-2 z-10">
+          <Badge variant="destructive" class="shadow-sm">Video</Badge>
+        </div>
+      )}
+
+      <!-- Hover overlay -->
+      <div class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style="background: linear-gradient(to top, rgba(7,9,15,0.7) 0%, transparent 60%);">
       </div>
-    )}
-    
-    <div class="absolute inset-0 bg-linear-to-t from-background/80 via-background/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-  </div>
-
-  <div class="p-6">
-    <div class="flex items-center gap-2 text-xs text-muted-foreground mb-3">
-      <time datetime={pubDate.toISOString()}>{dateString}</time>
-      <span>•</span>
-      <span>{t['nav.blog']}</span>
     </div>
-    
-    <h3 class="text-xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
-      {title}
-    </h3>
-    
-    <p class="text-muted-foreground text-sm line-clamp-2">
-      {description}
-    </p>
 
-    <div class={`mt-4 flex items-center gap-2 text-sm font-medium text-primary opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 ${isRtl(lang) ? 'translate-x-2' : '-translate-x-2'}`}>
-      <span>{t['blog.readMore']}</span> 
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class={`w-4 h-4 ${isRtl(lang) ? 'rotate-180' : ''}`}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    <div class="p-6">
+      <div class="flex items-center gap-2 mb-3" style="color: rgba(176,196,230,0.45); font-size: 0.75rem;">
+        <time datetime={pubDate.toISOString()}>{dateString}</time>
+        <span>·</span>
+        <span>{t['nav.blog']}</span>
+      </div>
+
+      <h3 class="font-display font-bold mb-2 transition-colors duration-200 group-hover:text-electric leading-snug"
+        style="font-size: 1.1rem; color: rgba(240,244,255,0.95);">
+        {title}
+      </h3>
+
+      <p class="text-sm line-clamp-2" style="color: rgba(176,196,230,0.6);">
+        {description}
+      </p>
+
+      <div class={`mt-4 flex items-center gap-1.5 text-xs font-medium opacity-0 transition-all duration-300 group-hover:opacity-100 ${isRtl(lang) ? 'translate-x-2 group-hover:translate-x-0' : '-translate-x-1 group-hover:translate-x-0'}`}
+        style="color: #5ba3f5;">
+        <span>{t['blog.readMore']}</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class={isRtl(lang) ? 'rotate-180' : ''}>
+          <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+        </svg>
+      </div>
     </div>
-  </div>
-</Card>
+  </a>
+</div>

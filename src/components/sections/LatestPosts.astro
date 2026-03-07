@@ -29,33 +29,47 @@ const posts = (await getCollection('blog'))
   ).slice(0, count);
 ---
 
-<section class="py-24 bg-white/2">
-    <div class="max-w-7xl mx-auto px-6">
-         <div class="flex justify-between items-end mb-12">
-            <div>
-                <h2 class="text-3xl font-display font-bold mb-4">{title}</h2>
-                 <p class="text-muted-foreground">{subtitle}</p>
-            </div>
-            <a href={`/${lang}/blog`} class="text-primary hover:text-primary/80 font-medium hidden md:block">
-                {viewAllText} {arrow}
-            </a>
-         </div>
+<section class="py-28 relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-[500px] h-[400px] pointer-events-none"
+    style="background: radial-gradient(ellipse, rgba(124,92,252,0.05) 0%, transparent 70%); filter: blur(60px);" aria-hidden="true">
+  </div>
 
-         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {posts.map((post: CollectionEntry<'blog'>) => (
-                <BlogCard 
-                    title={post.data.title}
-                    description={post.data.description}
-                    pubDate={post.data.pubDate}
-                    slug={`/${lang}/blog/${post.id.split('/').slice(1).join('/').replace(/\.[^/.]+$/, "")}`}
-                    heroImage={post.data.heroImage}
-                    isVideo={post.data.isVideo}
-                />
-            ))}
-         </div>
-         
-         <div class="mt-8 text-center md:hidden">
-             <a href={`/${lang}/blog`} class="text-primary font-medium">{viewAllText} {arrow}</a>
-         </div>
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="flex justify-between items-end mb-16">
+      <div>
+        <span class="label-tag block mb-4">Blog</span>
+        <h2 class="font-display font-bold leading-tight"
+          style="font-size: clamp(1.8rem, 3.5vw, 2.6rem);">{title}</h2>
+        <p class="mt-3 text-lg" style="color: rgba(176,196,230,0.6);">{subtitle}</p>
+      </div>
+      <a href={`/${lang}/blog`}
+        class="hidden md:inline-flex items-center gap-2 text-sm font-medium transition-colors duration-200"
+        style="color: #5ba3f5;"
+        onmouseover="this.style.color='#90c2ff'"
+        onmouseout="this.style.color='#5ba3f5'"
+      >
+        {viewAllText}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
     </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {posts.map((post: CollectionEntry<'blog'>) => (
+        <BlogCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          slug={`/${lang}/blog/${post.id.split('/').slice(1).join('/').replace(/\.[^/.]+$/, "")}`}
+          heroImage={post.data.heroImage}
+          isVideo={post.data.isVideo}
+        />
+      ))}
+    </div>
+
+    <div class="mt-8 text-center md:hidden">
+      <a href={`/${lang}/blog`} class="text-sm font-medium" style="color: #5ba3f5;">{viewAllText} {arrow}</a>
+    </div>
+  </div>
 </section>

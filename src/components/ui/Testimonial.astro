@@ -9,15 +9,20 @@ interface Props {
 const { text, author, role } = Astro.props;
 ---
 
-<div class="w-[350px] shrink-0 p-8 rounded-3xl border border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5 backdrop-blur-sm">
-  <p class="text-lg mb-6 leading-relaxed">"{text}"</p>
-  <div class="flex items-center gap-4">
-    <div class="w-10 h-10 rounded-full bg-linear-to-br from-primary to-purple-500 flex items-center justify-center font-bold text-white text-sm">
+<div class="w-[340px] shrink-0 p-7 rounded-2xl transition-all duration-300"
+  style="background: var(--surface-2); border: 1px solid rgba(74,143,232,0.12);"
+  onmouseover="this.style.borderColor='rgba(74,143,232,0.28)'; this.style.boxShadow='0 8px 32px rgba(74,143,232,0.08)'"
+  onmouseout="this.style.borderColor='rgba(74,143,232,0.12)'; this.style.boxShadow='none'"
+>
+  <p class="text-sm mb-5 leading-relaxed" style="color: rgba(176,196,230,0.8);">"{text}"</p>
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-sm shrink-0"
+      style="background: linear-gradient(135deg, #4a8fe8, #7c5cfc);">
       {author[0]}
     </div>
     <div>
-        <div class="font-bold text-sm">{author}</div>
-        <div class="text-xs text-muted-foreground">{role}</div>
+      <div class="text-sm font-semibold" style="color: rgba(240,244,255,0.9);">{author}</div>
+      <div class="text-xs" style="color: rgba(176,196,230,0.5);">{role}</div>
     </div>
   </div>
 </div>

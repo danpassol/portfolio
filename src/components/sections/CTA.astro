@@ -34,44 +34,55 @@ const isBoxed = variant === 'boxed';
 ---
 <section class={isBoxed ? "mt-24 max-w-4xl mx-auto px-6" : "py-32 relative overflow-hidden"}>
     {!isBoxed && (
-      <div class="absolute inset-0 z-0">
-            <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-primary/20 rounded-full blur-[120px]"></div>
+      <div class="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full"
+          style="background: radial-gradient(ellipse, rgba(74,143,232,0.12) 0%, rgba(124,92,252,0.06) 40%, transparent 70%); filter: blur(60px);">
+        </div>
       </div>
     )}
 
     <div class={
-      isBoxed 
-        ? "p-12 rounded-3xl bg-primary text-white text-center relative overflow-hidden group shadow-2xl shadow-primary/25"
+      isBoxed
+        ? "p-12 rounded-2xl text-white text-center relative overflow-hidden"
         : "max-w-4xl mx-auto px-6 relative z-10 text-center"
-    }>
-        {isBoxed && (
-          <div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        )}
+    }
+    style={isBoxed ? "background: linear-gradient(135deg, rgba(74,143,232,0.12), rgba(124,92,252,0.08)); border: 1px solid rgba(74,143,232,0.22);" : ""}
+    >
+        <h2
+          class={isBoxed ? "text-3xl font-bold mb-4" : "font-display font-bold mb-8 leading-tight"}
+          style={isBoxed ? "" : "font-size: clamp(2.5rem, 6vw, 5rem);"}
+          set:html={title}
+        />
 
-        <h2 class={isBoxed ? "text-3xl font-bold mb-4 relative z-10" : "text-5xl md:text-7xl font-display font-bold mb-8"} set:html={title} />
-        
-        <p class={isBoxed ? "text-white/80 mb-8 max-w-md mx-auto relative z-10" : "text-xl text-muted-foreground mb-10 max-w-2xl mx-auto"}>
-            {description}
+        <p class={isBoxed ? "mb-8 max-w-md mx-auto" : "text-xl mb-10 max-w-2xl mx-auto"}
+          style="color: rgba(176,196,230,0.7);">
+          {description}
         </p>
-        
-        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-10">
-            <Button href={primaryBtn.href} size="lg" class={isBoxed ? "bg-white text-primary hover:bg-white/90 shadow-none border-none border-transparent px-8 py-3" : "px-10 py-5 text-lg rounded-full"}>
-              {primaryBtn.text}
-            </Button>
-             <Button 
-              href={secondaryBtn.href}
-              variant={isBoxed ? "ghost" : "outline"}
-              size="lg"
-              class={isBoxed ? "bg-white/10 text-white hover:bg-white/20 border border-white/20 px-8 py-3" : "px-10 py-5 text-lg rounded-full"}
-            >
-              {secondaryBtn.text}
-            </Button>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a href={primaryBtn.href}
+            class="inline-flex items-center gap-2 px-10 py-4 rounded-full text-base font-semibold text-white transition-all duration-300"
+            style="background: linear-gradient(135deg, #4a8fe8, #3b7dd8); box-shadow: 0 0 28px rgba(74,143,232,0.4);"
+            onmouseover="this.style.boxShadow='0 0 45px rgba(74,143,232,0.6)'"
+            onmouseout="this.style.boxShadow='0 0 28px rgba(74,143,232,0.4)'"
+          >
+            {primaryBtn.text}
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+          <a href={secondaryBtn.href}
+            class="inline-flex items-center px-10 py-4 rounded-full text-base font-medium transition-all duration-200"
+            style="border: 1px solid rgba(74,143,232,0.22); color: rgba(176,196,230,0.8); background: rgba(74,143,232,0.04);"
+            onmouseover="this.style.borderColor='rgba(74,143,232,0.45)'; this.style.color='rgba(240,244,255,0.95)'"
+            onmouseout="this.style.borderColor='rgba(74,143,232,0.22)'; this.style.color='rgba(176,196,230,0.8)'"
+          >
+            {secondaryBtn.text}
+          </a>
         </div>
-        
+
         {disclaimer && !isBoxed && (
-            <p class="mt-6 text-sm text-muted-foreground">
-                {disclaimer}
-            </p>
+          <p class="mt-6 text-sm" style="color: rgba(176,196,230,0.4);">{disclaimer}</p>
         )}
     </div>
 </section>

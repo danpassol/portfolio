@@ -7,15 +7,22 @@ interface Props {
 const { title, description } = Astro.props;
 ---
 
-<section class="py-24">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="mb-12 text-center max-w-2xl mx-auto">
-             <h2 class="text-3xl font-display font-bold mb-4" set:html={title} />
-             <p class="text-muted-foreground">{description}</p>
-        </div>
+<section class="py-28 relative overflow-hidden">
+  <!-- Subtle glow behind the grid -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] pointer-events-none"
+    style="background: radial-gradient(ellipse, rgba(74,143,232,0.06) 0%, transparent 70%); filter: blur(60px);" aria-hidden="true">
+  </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px]">
-           <slot />
-        </div>
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="mb-16 text-center max-w-2xl mx-auto">
+      <span class="label-tag block mb-4">Funcionalidades</span>
+      <h2 class="font-display font-bold mb-4 leading-tight"
+        style="font-size: clamp(2rem, 4vw, 3rem);" set:html={title} />
+      <p style="color: rgba(176,196,230,0.65);" class="text-lg">{description}</p>
     </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px]">
+      <slot />
+    </div>
+  </div>
 </section>
