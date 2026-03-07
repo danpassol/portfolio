@@ -45,7 +45,7 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
 ---
 
 <!doctype html>
-<html lang={lang} dir={dir} class="dark">
+<html lang={lang} dir={dir}>
 	<head>
         <SEO 
             title={title} 
@@ -84,9 +84,19 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-        <!-- Always dark — dpastor brand -->
+        <!-- Theme: dark by default, respects localStorage and system preference -->
         <script is:inline>
-            document.documentElement.classList.add('dark');
+            (function() {
+                const stored = localStorage.getItem('theme');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                // Dark by default unless user explicitly chose light
+                const isDark = stored ? stored === 'dark' : (prefersDark !== false);
+                if (isDark) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            })();
         </script>
 
         <Analytics />
@@ -111,6 +121,7 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
         <!-- Star field JS -->
         <script is:inline>
             (function() {
+                // ── Star field ──────────────────────────────────────────
                 const canvas = document.getElementById('star-canvas');
                 if (!canvas) return;
                 const ctx = canvas.getContext('2d');
@@ -154,7 +165,15 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
                 createStars(280);
                 window.addEventListener('resize', () => { resize(); createStars(280); });
                 requestAnimationFrame(draw);
-            })();
+
+                // ── Mobile menu blur ────────────────────────────────────
+                document.addEventListener('mobile-menu-open', () => {
+                    document.documentElement.classList.add('menu-open');
+                });
+
+                document.addEventListener('mobile-menu-close', () => {
+                    document.documentElement.classList.remove('menu-open');
+                });            })();
         </script>
 	</body>
 </html>

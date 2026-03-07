@@ -19,26 +19,30 @@
 #star-canvas {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   opacity: 0.65;
+  transition: opacity 0.3s;
 }
 
-/* All page content sits above stars */
-body > *:not(#star-canvas):not(.page-glow) {
-  position: relative;
-  z-index: 1;
+html:not(.dark) #star-canvas {
+  opacity: 0.2;
 }
 
 /* ── Ambient glow layer ───────────────────────────────────── */
 .page-glow {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
+  transition: opacity 0.3s;
   background:
     radial-gradient(ellipse 70% 45% at 50% -5%, rgba(74, 143, 232, 0.1) 0%, transparent 65%),
     radial-gradient(ellipse 40% 30% at 85% 55%, rgba(124, 92, 252, 0.06) 0%, transparent 55%);
+}
+
+html:not(.dark) .page-glow {
+  opacity: 0.6;
 }
 
 /* ── Scrollbar ────────────────────────────────────────────── */
@@ -87,4 +91,18 @@ body > *:not(#star-canvas):not(.page-glow) {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-primary);
+}
+
+/* ── Mobile menu blur effect ──────────────────────────────── */
+html.menu-open main {
+  filter: blur(4px);
+  opacity: 0.4;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+html:not(.menu-open) main {
+  filter: none;
+  opacity: 1;
+  transition: filter 0.3s ease, opacity 0.3s ease;
 }

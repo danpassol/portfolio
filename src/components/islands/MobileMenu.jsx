@@ -14,13 +14,18 @@ export default function MobileMenu({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Prevent scrolling when menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.classList.add('menu-open');
     } else {
       document.body.style.overflow = 'unset';
+      document.documentElement.classList.remove('menu-open');
     }
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.documentElement.classList.remove('menu-open');
+    };
   }, [isOpen]);
 
   return (
@@ -48,7 +53,7 @@ export default function MobileMenu({
               aria-hidden="true"
             />
 
-            {/* Slide-out Panel / Full Screen Overlay */}
+            {/* Slide-out Panel */}
             <motion.div
               id="mobile-menu-panel"
               role="dialog"
@@ -139,6 +144,7 @@ export default function MobileMenu({
               <div className="pt-6 md:pt-8 border-t border-foreground/10 flex flex-col gap-4 mt-auto">
                  <a 
                     href={ACTION_LINKS.primary.href}
+                    onClick={() => setIsOpen(false)}
                     className="w-full py-3 px-4 bg-primary text-white text-center font-semibold rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25"
                   >
                     {labels.getStarted}

@@ -9,8 +9,7 @@ const { lang = defaultLang } = Astro.params;
 const t = useTranslations(lang);
 ---
 
-<footer class="mt-auto py-12 relative z-10"
-  style="border-top: 1px solid rgba(74,143,232,0.12); background: rgba(7,9,15,0.6); backdrop-filter: blur(8px);">
+<footer class="mt-auto py-12 relative z-10 border-t border-foreground/10 bg-background/60 backdrop-blur-sm">
   <div class="max-w-7xl mx-auto px-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
       <div class="col-span-1 md:col-span-2 flex flex-col items-start gap-4">

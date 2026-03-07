@@ -1,36 +1,80 @@
-/* dpastor.eu — Dark Space Theme (always dark) */
+/* ── Light Theme ──────────────────────────────────────────── */
 :root {
+  --background: #e8ecf4;
+  --foreground: #0d1220;
+  --muted: #d4daea;
+  --muted-foreground: #3d4f6e;
+  --primary-foreground: #ffffff;
+
+  --color-primary: #2563eb;
+  --color-primary-glow: #1d4ed8;
+  --color-accent: #6d28d9;
+  --color-electric: #3b82f6;
+
+  --surface-1: #dde3ef;
+  --surface-2: #d0d8e8;
+  --surface-3: #c8d0e2;
+  --surface-border: rgba(37, 99, 235, 0.18);
+  --surface-border-hover: rgba(37, 99, 235, 0.4);
+
+  --glow-blue: rgba(37, 99, 235, 0.12);
+  --glow-purple: rgba(109, 40, 217, 0.08);
+
+  --header-bg: rgba(216, 223, 237, 0.85);
+  --header-border: rgba(37, 99, 235, 0.15);
+  --footer-bg: rgba(200, 208, 226, 0.9);
+  --footer-border: rgba(37, 99, 235, 0.15);
+  --dropdown-bg: rgba(221, 227, 239, 0.97);
+}
+
+/* ── Dark Theme ───────────────────────────────────────────── */
+.dark {
   --background: #07090f;
   --foreground: #f0f4ff;
   --muted: #0d1220;
   --muted-foreground: #7a8baa;
   --primary-foreground: #ffffff;
 
-  /* dpastor brand colors */
   --color-primary: #4a8fe8;
   --color-primary-glow: #3b7dd8;
   --color-accent: #7c5cfc;
   --color-electric: #5ba3f5;
 
-  /* Surface layers */
   --surface-1: #0b0f1a;
   --surface-2: #0f1524;
   --surface-3: #131b2e;
   --surface-border: rgba(74, 143, 232, 0.12);
   --surface-border-hover: rgba(74, 143, 232, 0.28);
 
-  /* Glow effects */
   --glow-blue: rgba(74, 143, 232, 0.15);
   --glow-purple: rgba(124, 92, 252, 0.12);
-}
 
-/* Force dark mode always — dpastor brand is always dark */
-html {
-  color-scheme: dark;
+  --header-bg: rgba(7, 9, 15, 0.75);
+  --header-border: rgba(74, 143, 232, 0.12);
+  --footer-bg: rgba(7, 9, 15, 0.6);
+  --footer-border: rgba(74, 143, 232, 0.12);
+  --dropdown-bg: rgba(11, 15, 26, 0.97);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
   transition: background-color 0.3s, color 0.3s;
+}
+
+/* ── Header & Footer themed ──────────────────────────────── */
+.site-header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.site-footer {
+  background: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.3s, border-color 0.3s;
 }
