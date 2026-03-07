@@ -10,15 +10,26 @@ interface Props {
 const { variant = 'default', class: className } = Astro.props;
 
 const variants = {
-  default: "bg-background/80 text-foreground border border-foreground/10 shadow-sm backdrop-blur-md",
-  outline: "bg-transparent border border-foreground/10 text-foreground",
-  secondary: "bg-foreground/5 text-foreground border border-foreground/10",
-  accent: "bg-blue-600/10 text-blue-700 dark:text-blue-300 border border-blue-600/20",
-  destructive: "bg-red-600/10 text-red-700 dark:text-red-400 border border-red-600/20",
+  default: "text-electric font-semibold",
+  outline: "bg-transparent text-foreground",
+  secondary: "text-foreground/70",
+  accent: "text-electric",
+  destructive: "bg-red-600/10 text-red-400 border border-red-600/20",
+};
+
+const inlineStyles = {
+  default: "background: rgba(74,143,232,0.07); border: 1px solid rgba(74,143,232,0.22); backdrop-filter: blur(8px);",
+  outline: "border: 1px solid rgba(240,244,255,0.15);",
+  secondary: "background: rgba(240,244,255,0.05); border: 1px solid rgba(240,244,255,0.08);",
+  accent: "background: rgba(74,143,232,0.07); border: 1px solid rgba(74,143,232,0.22);",
+  destructive: "",
 };
 
 ---
 
-<span class={twMerge(clsx("inline-flex items-center px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm", variants[variant], className))}>
+<span
+  class={twMerge(clsx("inline-flex items-center px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm tracking-wide", variants[variant], className))}
+  style={inlineStyles[variant]}
+>
   <slot />
 </span>

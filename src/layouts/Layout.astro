@@ -45,7 +45,7 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
 ---
 
 <!doctype html>
-<html lang={lang} dir={dir}>
+<html lang={lang} dir={dir} class="dark">
 	<head>
         <SEO 
             title={title} 
@@ -78,40 +78,26 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
                 }))
             }} />
         )}
-        <style is:global define:vars={{ primary: siteConfig.primaryColor }}>
-          :theme {
-            --color-primary: var(--primary);
-          }
-        </style>
+
+        <!-- Google Fonts: Playfair Display (display serif) + Inter (body) + JetBrains Mono -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+        <!-- Always dark — dpastor brand -->
         <script is:inline>
-            const getTheme = () => {
-                if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-                    return localStorage.getItem('theme');
-                }
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    return 'dark';
-                }
-                return 'light';
-            };
-            const theme = getTheme();
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
+            document.documentElement.classList.add('dark');
         </script>
-        {/* Pagefind UI assets are now lazily loaded in the Search component to improve LCP/FCP */}
-        {/* siteConfig.search.enabled && import.meta.env.PROD && (
-            <>
-                <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
-                <script src="/pagefind/pagefind-ui.js" is:inline></script>
-            </>
-        ) */}
+
         <Analytics />
         <slot name="head" />
 		</head>
-		<body class="min-h-dvh flex flex-col antialiased bg-background text-foreground selection:bg-primary selection:text-white">
-        <div class="fixed inset-0 z-[-1] bg-background"></div>
+		<body class="min-h-dvh flex flex-col antialiased bg-background text-foreground">
+        <!-- Ambient glow layer -->
+        <div class="page-glow" aria-hidden="true"></div>
+
+        <!-- Star field canvas -->
+        <canvas id="star-canvas" aria-hidden="true"></canvas>
 
         <div class="fixed top-0 w-full z-50 flex flex-col items-stretch">
             <Header availableLangs={availableLangs} />
@@ -121,5 +107,54 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
 		</main>
         <CookieConsent />
 		<Footer />
+
+        <!-- Star field JS -->
+        <script is:inline>
+            (function() {
+                const canvas = document.getElementById('star-canvas');
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+
+                let stars = [];
+                let W, H;
+
+                function resize() {
+                    W = canvas.width = window.innerWidth;
+                    H = canvas.height = window.innerHeight;
+                }
+
+                function createStars(count) {
+                    stars = [];
+                    for (let i = 0; i < count; i++) {
+                        const size = Math.random();
+                        stars.push({
+                            x: Math.random() * W,
+                            y: Math.random() * H,
+                            r: size < 0.7 ? 0.4 : size < 0.9 ? 0.7 : 1.1,
+                            alpha: 0.2 + Math.random() * 0.7,
+                            twinkleSpeed: 0.003 + Math.random() * 0.008,
+                            twinkleOffset: Math.random() * Math.PI * 2,
+                        });
+                    }
+                }
+
+                function draw(t) {
+                    ctx.clearRect(0, 0, W, H);
+                    stars.forEach(s => {
+                        const twinkle = s.alpha * (0.6 + 0.4 * Math.sin(t * s.twinkleSpeed * 1000 + s.twinkleOffset));
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(200, 220, 255, ${twinkle})`;
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(draw);
+                }
+
+                resize();
+                createStars(280);
+                window.addEventListener('resize', () => { resize(); createStars(280); });
+                requestAnimationFrame(draw);
+            })();
+        </script>
 	</body>
 </html>

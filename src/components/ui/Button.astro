@@ -22,11 +22,11 @@ const {
 const baseStyles = 'inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 whitespace-nowrap';
 
 const variants = {
-  primary: 'bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/25',
-  secondary: 'bg-foreground/5 text-foreground hover:bg-foreground/10 border border-foreground/10',
-  outline: 'border border-foreground/10 bg-transparent hover:bg-foreground/5 text-foreground',
-  ghost: 'hover:bg-primary/5 text-primary',
-  icon: 'p-0 aspect-square hover:bg-foreground/5 rounded-full'
+  primary: 'text-white font-semibold shadow-lg transition-all duration-300',
+  secondary: 'border text-foreground/80 hover:text-foreground transition-all duration-200',
+  outline: 'border bg-transparent transition-all duration-200 text-foreground',
+  ghost: 'text-primary hover:bg-primary/5 transition-colors',
+  icon: 'p-0 aspect-square hover:bg-foreground/5 rounded-full transition-colors'
 };
 
 const sizes = {
@@ -46,8 +46,16 @@ const classes = twMerge(
 );
 
 const Tag = Astro.props.href ? 'a' : 'button';
+
+const inlineStyle = variant === 'primary'
+  ? 'background: linear-gradient(135deg, #4a8fe8, #3b7dd8); box-shadow: 0 0 22px rgba(74,143,232,0.3), inset 0 1px 0 rgba(255,255,255,0.08);'
+  : variant === 'secondary'
+  ? 'border-color: rgba(74,143,232,0.2); background: rgba(74,143,232,0.04); color: rgba(176,196,230,0.8);'
+  : variant === 'outline'
+  ? 'border-color: rgba(74,143,232,0.25); color: rgba(240,244,255,0.85);'
+  : '';
 ---
 
-<Tag class={classes} {...rest}>
+<Tag class={classes} style={inlineStyle} {...rest}>
     <slot />
 </Tag>

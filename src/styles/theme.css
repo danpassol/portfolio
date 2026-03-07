@@ -1,25 +1,36 @@
-/* Light Theme (Default) */
+/* dpastor.eu — Dark Space Theme (always dark) */
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
-  --muted: #f1f5f9;
-  --muted-foreground: #334155; /* Slate 700 - solid contrast for secondary text */
+  --background: #07090f;
+  --foreground: #f0f4ff;
+  --muted: #0d1220;
+  --muted-foreground: #7a8baa;
   --primary-foreground: #ffffff;
+
+  /* dpastor brand colors */
+  --color-primary: #4a8fe8;
+  --color-primary-glow: #3b7dd8;
+  --color-accent: #7c5cfc;
+  --color-electric: #5ba3f5;
+
+  /* Surface layers */
+  --surface-1: #0b0f1a;
+  --surface-2: #0f1524;
+  --surface-3: #131b2e;
+  --surface-border: rgba(74, 143, 232, 0.12);
+  --surface-border-hover: rgba(74, 143, 232, 0.28);
+
+  /* Glow effects */
+  --glow-blue: rgba(74, 143, 232, 0.15);
+  --glow-purple: rgba(124, 92, 252, 0.12);
 }
 
-/* Dark Theme */
-.dark {
-  --background: #000000;
-  --foreground: #ffffff;
-  --color-primary: #60a5fa;
-  --muted: #1e293b;
-  --muted-foreground: #94a3b8;
-  --primary-foreground: #000000;
+/* Force dark mode always — dpastor brand is always dark */
+html {
+  color-scheme: dark;
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--background);
+  color: var(--foreground);
   transition: background-color 0.3s, color 0.3s;
 }

@@ -45,7 +45,8 @@ const primaryHref = ACTION_LINKS.primary.href.startsWith('/docs')
   : `/${lang}${ACTION_LINKS.primary.href.startsWith('/') ? '' : '/'}${ACTION_LINKS.primary.href}`.replace(/\/$/, '');
 ---
 
-<header class="w-full transition-all duration-300 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
+<header class="w-full transition-all duration-300"
+  style="border-bottom: 1px solid rgba(74,143,232,0.12); background: rgba(7,9,15,0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);">
   <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href={`/${lang}`} class="flex items-center gap-3 text-xl font-bold tracking-tight text-primary dark:text-white group">
       {siteConfig.logo && (

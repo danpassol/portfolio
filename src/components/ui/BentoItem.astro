@@ -1,17 +1,19 @@
 ---
 interface Props {
   class?: string;
-  title?: string; // Optional helper prop
-  description?: string; // Optional helper prop
-  icon?: any; // Optional helper prop
+  title?: string;
+  description?: string;
+  icon?: any;
 }
 
 const { class: className, title, description } = Astro.props;
 ---
 
-<div class:list={[
-  "rounded-3xl border border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5 p-8 relative overflow-hidden",
-  className
-]}>
+<div
+  class:list={["rounded-2xl p-8 relative overflow-hidden transition-all duration-300 group", className]}
+  style="background: var(--surface-2); border: 1px solid var(--surface-border);"
+  onmouseover="this.style.borderColor='rgba(74,143,232,0.25)'; this.style.boxShadow='0 8px 40px rgba(74,143,232,0.08)'"
+  onmouseout="this.style.borderColor='rgba(74,143,232,0.12)'; this.style.boxShadow='none'"
+>
   <slot />
 </div>
