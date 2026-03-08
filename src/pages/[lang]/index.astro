@@ -16,13 +16,9 @@ import { Cpu, Globe, Zap, BarChart, ShieldCheck, Settings, FileCode, Search, Moo
 import FeaturesList from '~/components/sections/FeaturesList.astro';
 import FeatureItem from '~/components/ui/FeatureItem.astro';
 
-import Testimonials from '~/components/sections/Testimonials.astro';
-import Testimonial from '~/components/ui/Testimonial.astro';
-import Stats from '~/components/sections/Stats.astro';
-import StatItem from '~/components/ui/StatItem.astro';
+
 import CTA from '~/components/sections/CTA.astro';
 import FAQ from '~/components/sections/FAQ.astro';
-import LogoCloud from '~/components/sections/LogoCloud.astro';
 import TechStack from '~/components/sections/TechStack.astro';
 import OpenSourceNotification from '~/components/common/OpenSourceNotification.astro';
 
@@ -191,46 +187,9 @@ const t = useTranslations(lang);
         </div>
     </Section>
 
-    <Section class="py-0 overflow-visible">
-    <Stats>
-        <StatItem value="10k+" label={t['stats.downloads']} />
-        <StatItem value="99.9%" label={t['stats.uptime']} />
-        <StatItem value="50M+" label={t['stats.requests']} />
-        <StatItem value="24/7" label={t['stats.support']} />
-    </Stats>
+    <Section>
+        <LatestPosts count={6}/>
     </Section>
-
-    <Section class="py-0 overflow-visible">
-    <Testimonials>
-      <Testimonial 
-        text={t['testimonials.1.text']}
-        author={t['testimonials.1.author']}
-        role={t['testimonials.1.role']}
-      />
-      <Testimonial 
-        text={t['testimonials.2.text']}
-        author={t['testimonials.2.author']}
-        role={t['testimonials.2.role']}
-      />
-      <Testimonial 
-        text={t['testimonials.3.text']}
-        author={t['testimonials.3.author']}
-        role={t['testimonials.3.role']}
-      />
-      <Testimonial 
-        text={t['testimonials.4.text']}
-        author={t['testimonials.4.author']}
-        role={t['testimonials.4.role']}
-      />
-      <Testimonial 
-        text={t['testimonials.5.text']}
-        author={t['testimonials.5.author']}
-        role={t['testimonials.5.role']}
-      />
-    </Testimonials>
-    </Section>
-
-    <LatestPosts count={6}/>
 
     <Section class="py-0 overflow-visible">
     <FAQ items={[
@@ -261,7 +220,7 @@ const t = useTranslations(lang);
         title={t['cta.readyToLaunch']}
         description={t['cta.description']}
         primaryBtn={{ text: t['cta.primary'], href: `/${lang}/contact` }}
-        secondaryBtn={{ text: t['cta.secondary'], href: `/${lang}/about` }}
+        secondaryBtn={{ text: t['cta.secondary'], href: `/${lang}/projects` }}
         disclaimer={t['cta.disclaimer']}
     />
 

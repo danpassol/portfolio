@@ -2,18 +2,11 @@
 import Layout from '~/layouts/Layout.astro';
 import ContentSection from '~/components/sections/ContentSection.astro';
 import FeaturesList from '~/components/sections/FeaturesList.astro';
-import TeamSection from '~/components/sections/TeamSection.astro';
 import FeatureItem from '~/components/ui/FeatureItem.astro';
-import TeamMember from '~/components/ui/TeamMember.astro';
 import PageHeader from '~/components/layout/PageHeader.astro';
 import { Zap, Shield, Smartphone, Globe, Code, Layers } from 'lucide-react';
 import { languages } from '~/i18n/ui';
 import { useTranslations } from '~/i18n/utils';
-
-import cooperImage from '~/assets/blog/interstellar-cooper.png';
-import brandImage from '~/assets/blog/interstellar-brand.png';
-import murphyImage from '~/assets/blog/interstellar-murphy.png';
-import tarsImage from '~/assets/blog/interstellar-tars-illustration.png';
 import storyImage from '~/assets/blog/interstellar-story.png';
 
 import Timeline from '~/components/sections/Timeline.astro';
@@ -21,6 +14,7 @@ import Section from '~/components/layout/Section.astro';
 import Container from '~/components/ui/Container.astro';
 import Heading from '~/components/ui/Heading.astro';
 import Text from '~/components/ui/Text.astro';
+import CTA from '~/components/sections/CTA.astro';
 
 export async function getStaticPaths() {
   return Object.keys(languages).map((lang) => ({ params: { lang } }));
@@ -80,37 +74,13 @@ const timelineItems = [
                 </FeatureItem>
              </FeaturesList>
           </div>
-
-          <div>
-            <TeamSection title={t['about.team.title']}>
-              <TeamMember
-                name={t['about.team.cooper.name']}
-                role={t['about.team.cooper.role']}
-                image={cooperImage}
-                github="https://github.com/gladtek"
-                linkedin="https://linkedin.com/company/gladtek"
-              />
-              <TeamMember
-                name={t['about.team.brand.name']}
-                role={t['about.team.brand.role']}
-                image={brandImage}
-                twitter="https://github.com/gladtek"
-                linkedin="https://linkedin.com/company/gladtek"
-              />
-              <TeamMember
-                name={t['about.team.murphy.name']}
-                role={t['about.team.murphy.role']}
-                image={murphyImage}
-                linkedin="https://linkedin.com/company/gladtek"
-              />
-              <TeamMember
-                name={t['about.team.tars.name']}
-                role={t['about.team.tars.role']}
-                image={tarsImage}
-                github="https://github.com/gladtek"
-              />
-            </TeamSection>
-          </div>
       </Container>
-  </Section>
+      <CTA 
+        title={t['cta.readyToLaunch']}
+        description={t['cta.description']}
+        primaryBtn={{ text: t['cta.primary'], href: `/${lang}/contact` }}
+        secondaryBtn={{ text: t['cta.secondary'], href: `/${lang}/projects` }}
+        disclaimer={t['cta.disclaimer']}
+      />
+    </Section>
 </Layout>

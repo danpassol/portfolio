@@ -26,6 +26,14 @@ const t = ui[defaultLang] as any;
           <div class="w-150 h-150 bg-red-500/20 rounded-full blur-[120px]"></div>
       </div>
 
+      <img
+        id="astronaut"
+        src="/astronaut.webp"
+        alt="Astronauta perdido"
+        class="absolute pointer-events-none select-none z-0"
+        style="width: 160px; opacity: 0.55;"
+      />
+
       <div class="relative z-10 px-6">
         <h1 class="text-9xl font-display font-bold text-black/10 dark:text-white/10 mb-4 select-none">404</h1>
         <h2 class="text-4xl md:text-5xl font-display font-bold mb-6">{t['404.heading']}</h2>
@@ -49,4 +57,33 @@ const t = ui[defaultLang] as any;
         </div>
       </div>
   </div>
+  <script>
+    const el = document.getElementById('astronaut') as HTMLImageElement;
+    const SIZE = 160;
+
+    let x = Math.random() * (window.innerWidth - SIZE);
+    let y = Math.random() * (window.innerHeight - SIZE);
+    let vx = (Math.random() * 1.2 + 0.04) * (Math.random() < 0.5 ? 1 : -1);
+    let vy = (Math.random() * 1.2 + 0.04) * (Math.random() < 0.5 ? 1 : -1);
+    let angle = 0;
+
+    function tick() {
+      x += vx;
+      y += vy;
+      angle += 0.15;
+
+      if (x <= 0) { x = 0; vx = Math.abs(vx); }
+      if (x >= window.innerWidth - SIZE) { x = window.innerWidth - SIZE; vx = -Math.abs(vx); }
+      if (y <= 0) { y = 0; vy = Math.abs(vy); }
+      if (y >= window.innerHeight - SIZE) { y = window.innerHeight - SIZE; vy = -Math.abs(vy); }
+
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.transform = `rotate(${angle}deg)`;
+
+      requestAnimationFrame(tick);
+    }
+
+    tick();
+  </script>
 </Layout>

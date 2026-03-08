@@ -30,7 +30,7 @@ export const siteConfig = {
   contact: {
     email: {
       support: 'support@dpastor.eu',
-      other: 'hi@dpastor.eu'
+      other: 'hola@dpastor.eu'
     }
   },
   dateOptions: {
