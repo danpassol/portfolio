@@ -1,7 +1,9 @@
 ---
 export const prerender = false;
 
-import { defaultLang } from '../i18n/ui';
+const acceptLanguage = Astro.request.headers.get('accept-language') || '';
+const isSpanish = acceptLanguage.toLowerCase().includes('es');
+const lang = isSpanish ? 'es' : 'en';
 
-return Astro.redirect(`/${defaultLang}/`);
+return Astro.redirect(`/${lang}/`);
 ---

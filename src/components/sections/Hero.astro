@@ -93,9 +93,9 @@ const {
       </div>
 
       <!-- Scroll indicator -->
-      <div class="mt-20 flex flex-col items-center gap-2 opacity-30">
+      <div class="mt-20 flex flex-col items-center gap-2 hero-scroll">
         <span class="text-[10px] tracking-[0.2em] uppercase" style="color: #5ba3f5;">Scroll</span>
-        <div class="w-px h-10" style="background: linear-gradient(to bottom, #5ba3f5, transparent);"></div>
+        <div class="w-px h-10 scroll-line scroll-line" style="background: linear-gradient(to bottom, #5ba3f5, transparent);"></div>
       </div>
 
     </div>
@@ -107,8 +107,21 @@ const {
     animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--blue), transparent);
+    animation: scrollAnim 2s infinite;
+  }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(28px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+
+    @keyframes scrollAnim {
+    0%   { transform: scaleY(0); transform-origin: bottom; }
+    50%  { transform: scaleY(1); transform-origin: bottom; }
+    51%  { transform: scaleY(1); transform-origin: top; }
+    100% { transform: scaleY(0); transform-origin: top; }
   }
 </style>

@@ -33,14 +33,7 @@ export async function getStaticPaths() {
 const { lang = defaultLang } = Astro.params;
 const t = useTranslations(lang);
 
-const logos = [
-  { name: 'Vite', src: 'https://vitejs.dev/logo.svg', description: t['logo.vite.desc'] },
-  { name: 'Cloudflare', src: 'https://upload.wikimedia.org/wikipedia/commons/4/4b/Cloudflare_Logo.svg', description: t['logo.cloudflare.desc'] },
-  { name: 'Astro', src: 'https://astro.build/assets/press/astro-logo-dark.svg', description: t['logo.astro.desc'] },
-  { name: 'React', src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png', description: t['logo.react.desc'] },
-  { name: 'Tailwind CSS', src: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg', description: t['logo.tailwind.desc'] },
-  { name: 'Framer Motion', src: 'https://pagepro.co/blog/wp-content/uploads/2020/03/framer-motion.png', description: t['logo.framer.desc'] },
-];
+
 
 ---
 
@@ -48,7 +41,7 @@ const logos = [
     <Schema item={{
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "Cooper",
+            "name": "dpastor.eu",
             "url": Astro.site,
             "potentialAction": {
                 "@type": "SearchAction",
@@ -62,13 +55,13 @@ const logos = [
     <Schema item={{
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "Cooper",
+            "name": "dpastor.eu",
             "operatingSystem": "Web",
             "applicationCategory": "DeveloperApplication",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
-                "priceCurrency": "USD"
+                "priceCurrency": "EUR"
             },
             "aggregateRating": {
                 "@type": "AggregateRating",
@@ -81,11 +74,11 @@ const logos = [
         title={t['hero.title']}
         highlight={t['hero.highlight']}
         description={t['hero.subtitle']}
-        primaryCta={{ text: t['hero.getStarted'], href: `/${lang}/pricing` }}
-        secondaryCta={{ text: t['hero.learnMore'], href: `/${lang}/features` }}
+        primaryCta={{ text: t['hero.getStarted'], href: `/${lang}/contact` }}
+        secondaryCta={{ text: t['hero.learnMore'], href: `/${lang}/about` }}
     />
     
-    <LogoCloud title={t['logo.title']} logos={logos} />
+    <!-- <LogoCloud title={t['logo.title']} logos={logos} /> -->
     
 
 
@@ -267,8 +260,8 @@ const logos = [
     <CTA 
         title={t['cta.readyToLaunch']}
         description={t['cta.description']}
-        primaryBtn={{ text: t['cta.primary'], href: `/${lang}/pricing` }}
-        secondaryBtn={{ text: t['cta.secondary'], href: `/${lang}/contact` }}
+        primaryBtn={{ text: t['cta.primary'], href: `/${lang}/contact` }}
+        secondaryBtn={{ text: t['cta.secondary'], href: `/${lang}/about` }}
         disclaimer={t['cta.disclaimer']}
     />
 
