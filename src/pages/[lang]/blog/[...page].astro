@@ -14,21 +14,45 @@ import { useTranslations } from '~/i18n/utils';
 import type { GetStaticPathsOptions, Page } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 
+type PostWithMeta = {
+  post: CollectionEntry<'blog'>;
+  unavailable: boolean;
+  postLang: string;
+};
+
 export async function getStaticPaths({ paginate }: { paginate: GetStaticPathsOptions['paginate'] }) {
-  const posts = (await getCollection('blog')).sort(
+  const allPosts = (await getCollection('blog')).sort(
     (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 
   return Object.keys(languages).flatMap((lang) => {
-      const filteredPosts = posts.filter((post) => post.id.startsWith(`${lang}/`));
-      return paginate(filteredPosts, { 
-          params: { lang }, 
-          pageSize: siteConfig.blog.postsPerPage
-      });
+    const fallbackLang = Object.keys(languages).find(l => l !== lang) || defaultLang;
+
+    const nativePosts: PostWithMeta[] = allPosts
+      .filter(post => post.id.startsWith(`${lang}/`))
+      .map(post => ({ post, unavailable: false, postLang: lang }));
+
+    const nativeIds = new Set(
+      nativePosts.map(({ post }) => post.id.split('/').slice(1).join('/'))
+    );
+
+    const fallbackPosts: PostWithMeta[] = allPosts
+      .filter(post => post.id.startsWith(`${fallbackLang}/`))
+      .map(post => ({ post, unavailable: true, postLang: fallbackLang }));
+
+    // Mezclar: nativos primero, luego fallback, ordenados por fecha
+    const mixed = [...nativePosts, ...fallbackPosts].sort(
+      (a, b) => b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf()
+    );
+
+    return paginate(mixed, {
+      params: { lang },
+      pageSize: siteConfig.blog.postsPerPage
+    });
   });
 }
 
-const { page } = Astro.props as { page: Page<CollectionEntry<'blog'>> };
+const { page } = Astro.props as { page: Page<PostWithMeta> };
 const { lang } = Astro.params;
 const t = useTranslations(lang);
 ---
@@ -41,14 +65,15 @@ const t = useTranslations(lang);
 
   <Container as="section" class="pb-24">
       <Grid cols={3} class="mb-16">
-        {page.data.map((post: CollectionEntry<'blog'>) => (
+        {page.data.map(({ post, unavailable, postLang }) => (
           <BlogCard 
              title={post.data.title}
              description={post.data.description}
              pubDate={post.data.pubDate}
              heroImage={post.data.heroImage}
-             slug={`/${lang}/blog/${post.id.split('/').slice(1).join('/').replace(/\.[^/.]+$/, "")}`}
+             slug={`/${postLang}/blog/${post.id.split('/').slice(1).join('/').replace(/\.[^/.]+$/, "")}`}
              isVideo={post.data.isVideo}
+             unavailable={unavailable}
           />
         ))}
       </Grid>

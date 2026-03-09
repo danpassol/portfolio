@@ -27,7 +27,7 @@ export async function GET(context) {
 		description: siteConfig.description,
 		site: context.site,
 		items: items,
-		customData: `<language>en-us</language>`,
+		customData: `<language>es-es</language>`,
 		trailingSlash: false,
 	});
 }

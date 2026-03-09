@@ -1,7 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BlogCard from '~/components/blog/BlogCard.astro';
-import { defaultLang } from '~/i18n/ui';
+import { defaultLang, languages } from '~/i18n/ui';
 import { isRtl, useTranslations } from '~/i18n/utils';
 
 interface Props {
@@ -22,11 +22,27 @@ const {
     count = 3
 } = Astro.props;
 
-const posts = (await getCollection('blog'))
+const allPosts = await getCollection('blog');
+const fallbackLang = Object.keys(languages).find(l => l !== lang) || defaultLang;
+
+// Posts en el idioma actual
+const nativePosts = allPosts
   .filter((post) => post.id.startsWith(`${lang}/`))
-  .sort(
-	(a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  ).slice(0, count);
+  .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, count)
+  .map(post => ({ post, unavailable: false, postLang: lang }));
+
+// Rellenar con posts del otro idioma si no llegamos a `count`
+const remaining = count - nativePosts.length;
+const fallbackPosts = remaining > 0
+  ? allPosts
+      .filter((post) => post.id.startsWith(`${fallbackLang}/`))
+      .sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .slice(0, remaining)
+      .map(post => ({ post, unavailable: true, postLang: fallbackLang }))
+  : [];
+
+const posts = [...nativePosts, ...fallbackPosts];
 ---
 
 <section class="py-28 relative overflow-hidden">
@@ -56,14 +72,15 @@ const posts = (await getCollection('blog'))
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {posts.map((post: CollectionEntry<'blog'>) => (
+      {posts.map(({ post, unavailable, postLang }) => (
         <BlogCard
           title={post.data.title}
           description={post.data.description}
           pubDate={post.data.pubDate}
-          slug={`/${lang}/blog/${post.id.split('/').slice(1).join('/').replace(/\.[^/.]+$/, "")}`}
+          slug={`/${postLang}/blog/${post.id.split('/').slice(1).join('/').replace(/\.[^/.]+$/, "")}`}
           heroImage={post.data.heroImage}
           isVideo={post.data.isVideo}
+          unavailable={unavailable}
         />
       ))}
     </div>
