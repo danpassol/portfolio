@@ -1,18 +1,24 @@
 ---
+import { defaultLang } from '~/i18n/ui';
+import { useTranslations } from '~/i18n/utils';
+
 interface Props {
   title: string;
   description: string;
   image: string;
   tags: string[];
   slug: string;
+  unavailable?: boolean;
 }
 
-const { title, description, image, tags, slug } = Astro.props;
+const { title, description, image, tags, slug, unavailable = false } = Astro.props;
+const { lang = defaultLang } = Astro.params;
+const t = useTranslations(lang);
 
 const href = slug.startsWith('/') ? slug : `/${slug}`;
 ---
 
-<a href={href} class="group block relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2">
+<a href={href} class={`group block relative overflow-hidden rounded-3xl border border-black/5 dark:border-white/10 bg-black/5 dark:bg-white/5 hover:border-primary/50 transition-all duration-500 hover:-translate-y-2 ${unavailable ? 'opacity-75' : ''}`}>
   <div class="aspect-[4/3] w-full overflow-hidden">
     <img 
         src={image} 
@@ -21,6 +27,21 @@ const href = slug.startsWith('/') ? slug : `/${slug}`;
     />
     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
   </div>
+
+  {unavailable && (
+    <div class="absolute top-3 left-3 z-10">
+      <span
+        title={t['project.unavailable.tooltip']}
+        class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold tracking-wide"
+        style="background: rgba(251, 190, 36, 0.527); border: 1px solid rgba(251,191,36,0.35); color: #ffe4a1;"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        {t['project.unavailable.badge']}
+      </span>
+    </div>
+  )}
   
   <div class="absolute bottom-0 left-0 w-full p-8 translate-y-2 group-hover:translate-y-0 transition-transform duration-500 bg-black/50 backdrop-blur-md">
      <div class="flex flex-wrap gap-2 mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">

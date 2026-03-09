@@ -2,7 +2,7 @@
 import Layout from '~/layouts/Layout.astro';
 import ProjectCard from '~/components/blog/ProjectCard.astro';
 import { getCollection } from 'astro:content';
-import { languages } from '~/i18n/ui';
+import { languages, defaultLang } from '~/i18n/ui';
 import { useTranslations } from '~/i18n/utils';
 
 export function getStaticPaths() {
@@ -11,39 +11,48 @@ export function getStaticPaths() {
 
 const { lang } = Astro.params;
 const t = useTranslations(lang);
+const fallbackLang = Object.keys(languages).find(l => l !== lang) || defaultLang;
 
-const projects = (await getCollection('portfolio', ({ id }) => {
-	return id.startsWith(`${lang}/`);
-})).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+const allProjects = (await getCollection('portfolio')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const nativeProjects = allProjects
+  .filter(p => p.id.startsWith(`${lang}/`))
+  .map(p => ({ project: p, unavailable: false, projectLang: lang }));
+
+const fallbackProjects = allProjects
+  .filter(p => p.id.startsWith(`${fallbackLang}/`))
+  .map(p => ({ project: p, unavailable: true, projectLang: fallbackLang }));
+
+const projects = [...nativeProjects, ...fallbackProjects].sort(
+  (a, b) => b.project.data.pubDate.valueOf() - a.project.data.pubDate.valueOf()
 );
 ---
 
 <Layout siteTitle={t['portfolio.sitetitle']} title={`${(t as any)['portfolio.hero.title'].replace(/<[^>]*>?/gm, '')}`} description={(t as any)['portfolio.hero.subtitle']}>
-	<div class="max-w-7xl mx-auto px-6 pt-32 pb-12">
-        <div class="mb-16">
-            <h1 class="text-4xl md:text-6xl font-display font-bold mb-6" set:html={(t as any)['portfolio.hero.title']}></h1>
-            <p class="text-xl text-muted-foreground max-w-2xl">
-                {(t as any)['portfolio.hero.subtitle']}
-            </p>
-        </div>
+  <div class="max-w-7xl mx-auto px-6 pt-32 pb-12">
+    <div class="mb-16">
+      <h1 class="text-4xl md:text-6xl font-display font-bold mb-6" set:html={(t as any)['portfolio.hero.title']}></h1>
+      <p class="text-xl text-muted-foreground max-w-2xl">
+        {(t as any)['portfolio.hero.subtitle']}
+      </p>
+    </div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-			{
-				projects.map((project) => {
-                    const [_lang, ...rest] = project.id.split('/');
-                    const slugWithoutLang = rest.join('/').replace(/\.[^/.]+$/, "");
-                    return (
-                        <ProjectCard 
-                            title={project.data.title}
-                            description={project.data.description}
-                            image={project.data.heroImage}
-                            tags={project.data.tags}
-                            slug={`${lang}/portfolio/${slugWithoutLang}`}
-                        />
-                    );
-                })
-			}
-		</div>
-	</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {projects.map(({ project, unavailable, projectLang }) => {
+        const slugWithoutLang = project.id.split('/').slice(1).join('/').replace(/\.[^/.]+$/, "");
+        return (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            image={project.data.heroImage}
+            tags={project.data.tags}
+            slug={`${projectLang}/portfolio/${slugWithoutLang}`}
+            unavailable={unavailable}
+          />
+        );
+      })}
+    </div>
+  </div>
 </Layout>
