@@ -1,14 +1,14 @@
 ---
 import { clsx } from 'clsx';
 import { 
-  Atom, 
-  Wind, 
-  Zap, 
-  Layers, 
-  Cpu, 
-  Globe, 
-  Code2,
-  Rocket
+  Terminal,
+  Container,
+  Bot,
+  Server,
+  ShieldCheck,
+  BarChart2,
+  Network,
+  Activity
 } from 'lucide-react';
 
 interface Props {
@@ -21,75 +21,78 @@ interface TechItem {
   id: string;
   name: string;
   icon: any;
-  category: 'core' | 'frontend' | 'design' | 'devtool' | 'devops';
+  category: 'sistemas' | 'contenedores' | 'automatizacion' | 'virtualizacion' | 'seguridad' | 'monitorizacion' | 'red' | 'aplicaciones';
   color: string;
 }
 
 const TECH_STACK: TechItem[] = [
   {
-    id: 'astro',
-    name: 'Astro',
-    icon: Rocket,
-    category: 'core',
-    color: 'text-orange-500',
+    id: 'linux',
+    name: 'Linux',
+    icon: Terminal,
+    category: 'sistemas',
+    color: 'text-yellow-400',
   },
   {
-    id: 'react',
-    name: 'React',
-    icon: Atom,
-    category: 'frontend',
+    id: 'docker',
+    name: 'Docker / k3s',
+    icon: Container,
+    category: 'contenedores',
     color: 'text-blue-400',
   },
   {
-    id: 'tailwind',
-    name: 'Tailwind CSS',
-    icon: Wind,
-    category: 'design',
+    id: 'ansible',
+    name: 'Ansible / Terraform',
+    icon: Bot,
+    category: 'automatizacion',
+    color: 'text-red-400',
+  },
+  {
+    id: 'proxmox',
+    name: 'Proxmox / VMware',
+    icon: Server,
+    category: 'virtualizacion',
+    color: 'text-orange-400',
+  },
+  {
+    id: 'wazuh',
+    name: 'Wazuh / Suricata',
+    icon: ShieldCheck,
+    category: 'seguridad',
+    color: 'text-green-400',
+  },
+  {
+    id: 'grafana',
+    name: 'Grafana / Prometheus',
+    icon: BarChart2,
+    category: 'monitorizacion',
+    color: 'text-orange-500',
+  },
+  {
+    id: 'opnsense',
+    name: 'OPNsense',
+    icon: Network,
+    category: 'red',
     color: 'text-cyan-400',
   },
   {
-    id: 'typescript',
-    name: 'TypeScript',
-    icon: Code2,
-    category: 'core',
-    color: 'text-blue-600',
-  },
-  {
-    id: 'vite',
-    name: 'Vite',
-    icon: Zap,
-    category: 'devtool',
-    color: 'text-yellow-500',
-  },
-  {
-    id: 'cloudflare',
-    name: 'Cloudflare',
-    icon: Globe,
-    category: 'devops',
-    color: 'text-orange-600',
-  },
-  {
-    id: 'motion',
-    name: 'Motion',
-    icon: Layers,
-    category: 'frontend',
-    color: 'text-pink-500',
-  },
-  {
-    id: 'lucide',
-    name: 'Lucide',
-    icon: Cpu,
-    category: 'design',
-    color: 'text-indigo-400',
+    id: 'uptimekuma',
+    name: 'Uptime Kuma / ERPNext',
+    icon: Activity,
+    category: 'aplicaciones',
+    color: 'text-pink-400',
   }
 ];
 
 const CATEGORY_COLORS = {
-  core: 'bg-primary/10 text-primary dark:text-primary border-primary/20',
-  frontend: 'bg-blue-600/10 text-blue-950 dark:text-blue-300 border-blue-600/20',
-  design: 'bg-purple-600/10 text-purple-950 dark:text-purple-300 border-purple-600/20',
-  devtool: 'bg-orange-600/10 text-orange-950 dark:text-orange-300 border-orange-600/20',
-  devops: 'bg-green-600/10 text-green-950 dark:text-green-300 border-green-600/20',
+  sistemas:       'bg-yellow-600/10 text-yellow-900 dark:text-yellow-300 border-yellow-600/20',
+  contenedores:   'bg-blue-600/10 text-blue-950 dark:text-blue-300 border-blue-600/20',
+  automatizacion: 'bg-red-600/10 text-red-950 dark:text-red-300 border-red-600/20',
+  virtualizacion: 'bg-orange-600/10 text-orange-950 dark:text-orange-300 border-orange-600/20',
+  seguridad:      'bg-green-600/10 text-green-950 dark:text-green-300 border-green-600/20',
+  monitorizacion: 'bg-orange-600/10 text-orange-950 dark:text-orange-300 border-orange-600/20',
+  red:            'bg-cyan-600/10 text-cyan-950 dark:text-cyan-300 border-cyan-600/20',
+  aplicaciones:   'bg-pink-600/10 text-pink-950 dark:text-pink-300 border-pink-600/20',
 };
 ---
 
