@@ -15,15 +15,6 @@ export const siteConfig = {
   blog: {
     postsPerPage: 6,
   },
-  analytics: {
-    alwaysLoad: true,
-    vendors: {
-      googleAnalytics: {
-        id: 'G-XXXXXXXXXX',
-        enabled: false,
-      },
-    },
-  },
   contact: {
     email: {
       support: 'support@dpastor.eu',
