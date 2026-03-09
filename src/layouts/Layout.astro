@@ -5,7 +5,6 @@ import SEO from '~/components/layout/SEO.astro';
 import Schema from '~/components/layout/Schema.astro';
 import CookieConsent from '~/components/common/CookieConsent.astro';
 import '../styles/global.css';
-import AnnouncementBanner from '~/components/sections/AnnouncementBanner.astro';
 
 interface Props {
 	siteTitle?: string;
@@ -110,7 +109,7 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
         <div class="fixed top-0 w-full z-50 flex flex-col items-stretch">
             <Header availableLangs={availableLangs} />
         </div>
-		<main data-pagefind-body>
+		<main data-pagefind-ignore>
 			<slot />
 		</main>
         <CookieConsent />

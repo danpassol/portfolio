@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import DevSearchModal from "./DevSearchModal";
 
 const POPULAR_LINKS = [
-  { label: "Getting Started", href: "/docs/getting-started/", icon: Book, localize: false },
+  { label: "Projects", href: "/projects/", icon: Book },
   { label: "Blog", href: "/blog/", icon: FileText },
 ];
 
-export default function Search({ placeholder = "Search...", devModalLabels, lang = "en" }) {
+export default function Search({ placeholder = "Search...", devModalLabels, lang = "es" }) {
   const [open, setOpen] = useState(false);
 
   // Localize links
