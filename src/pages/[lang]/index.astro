@@ -20,7 +20,6 @@ import FeatureItem from '~/components/ui/FeatureItem.astro';
 import CTA from '~/components/sections/CTA.astro';
 import FAQ from '~/components/sections/FAQ.astro';
 import TechStack from '~/components/sections/TechStack.astro';
-import OpenSourceNotification from '~/components/common/OpenSourceNotification.astro';
 
 export async function getStaticPaths() {
   return Object.keys(languages).map((lang) => ({ params: { lang } }));
@@ -85,7 +84,7 @@ const t = useTranslations(lang);
     >
         <!-- Large Item -->
         <BentoItem class="md:col-span-2 group">
-            <div class="absolute top-0 right-0 w-[300px] h-[300px] bg-linear-to-br from-primary/20 to-purple-500/20 rounded-full blur-[80px] -mr-20 -mt-20"></div>
+            <div class="absolute top-0 right-0 w-75 h-75 bg-linear-to-br from-primary/20 to-purple-500/20 rounded-full blur-[80px] -mr-20 -mt-20"></div>
             
             <div class="relative z-10 h-full flex flex-col justify-between">
                 <div>
@@ -150,7 +149,7 @@ const t = useTranslations(lang);
     </BentoGrid>
     </Section>
 
-    <Section class="p-5">
+    <Section class="p-5 flex flex-col items-center">
         <div class="text-center max-w-3xl mx-auto mb-16">
             <h2 class="text-3xl font-bold mb-4">{t['benefits.title']}</h2>
             <p class="text-muted-foreground">{t['benefits.subtitle']}</p>
@@ -223,7 +222,5 @@ const t = useTranslations(lang);
         secondaryBtn={{ text: t['cta.secondary'], href: `/${lang}/projects` }}
         disclaimer={t['cta.disclaimer']}
     />
-
-    <OpenSourceNotification lang={lang} />
 
 </Layout>

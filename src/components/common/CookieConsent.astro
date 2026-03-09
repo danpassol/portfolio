@@ -11,7 +11,7 @@ const positionClasses = isRtl(lang)
   : 'md:left-6 md:right-auto'; // LTR: Left
 ---
 
-<div id="cookie-consent" class={`fixed bottom-6 left-6 right-6 md:w-[400px] z-50 p-6 rounded-2xl bg-background/80 backdrop-blur-xl border border-foreground/10 shadow-2xl opacity-0 translate-y-12 pointer-events-none transition-all duration-500 ease-out ${positionClasses}`} role="alert" dir={isRtl(lang) ? 'rtl' : 'ltr'}>
+<div id="cookie-consent" class={`fixed bottom-6 left-6 right-6 md:w-100 z-50 p-6 rounded-2xl bg-background/80 backdrop-blur-xl border border-foreground/10 shadow-2xl opacity-0 translate-y-12 pointer-events-none transition-all duration-500 ease-out ${positionClasses}`} role="alert" dir={isRtl(lang) ? 'rtl' : 'ltr'}>
   <div class="flex items-start gap-4">
     <div class="p-3 rounded-full bg-primary/10 text-primary shrink-0">
       <Cookie className="w-6 h-6" />
@@ -21,18 +21,12 @@ const positionClasses = isRtl(lang)
       <p class="text-sm text-foreground/70 mb-4 leading-relaxed">
         {t['cookie.description']}
       </p>
-      <div class="flex gap-3">
+      <div class="flex flex-col items-center">
         <button
           id="cookie-accept"
           class="px-6 py-2.5 bg-primary text-white text-sm font-bold rounded-full hover:scale-105 transition-transform"
         >
           {t['cookie.accept']}
-        </button>
-        <button
-          id="cookie-decline"
-          class="px-6 py-2.5 bg-foreground/5 text-foreground text-sm font-bold rounded-full border border-foreground/10 hover:bg-foreground/10 transition-colors"
-        >
-          {t['cookie.decline']}
         </button>
       </div>
     </div>
@@ -50,10 +44,9 @@ const positionClasses = isRtl(lang)
   function initCookieConsent() {
     const banner = document.getElementById('cookie-consent');
     const acceptBtn = document.getElementById('cookie-accept');
-    const declineBtn = document.getElementById('cookie-decline');
     const closeBtn = document.getElementById('cookie-close');
 
-    if (!banner || !acceptBtn || !declineBtn || !closeBtn) return;
+    if (!banner || !acceptBtn || !closeBtn) return;
 
     const showBanner = () => {
         banner.classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
@@ -77,10 +70,6 @@ const positionClasses = isRtl(lang)
         hideBanner();
     });
 
-    declineBtn.addEventListener('click', () => {
-        localStorage.setItem('cookie_consent', 'declined');
-        hideBanner();
-    });
 
     closeBtn.addEventListener('click', () => {
         localStorage.setItem('cookie_consent', 'declined');

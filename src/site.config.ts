@@ -1,6 +1,3 @@
-import type { Facebook } from "lucide-react";
-import Contact from "./pages/[lang]/contact.astro";
-
 export const siteConfig = {
   name: 'dpastor.eu',
   description: 'Portfolio de Dani Pastor, administrador de sistemas',
