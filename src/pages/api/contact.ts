@@ -1,12 +1,11 @@
 import type { APIRoute } from 'astro';
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
     const { name, email, message, lang } = body;
 
-    // Basic validation
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400,
@@ -21,7 +20,10 @@ export const POST: APIRoute = async ({ request }) => {
       });
     }
 
-    const apiKey = import.meta.env.RESEND_API_KEY;
+    // Cloudflare runtime env → locals.runtime.env
+    // Fallback a import.meta.env para dev local
+    const apiKey = (locals?.runtime?.env?.RESEND_API_KEY) || import.meta.env.RESEND_API_KEY;
+
     if (!apiKey) {
       console.error('RESEND_API_KEY not set');
       return new Response(JSON.stringify({ error: 'Server configuration error' }), {
