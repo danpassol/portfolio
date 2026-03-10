@@ -139,6 +139,12 @@ export default defineConfig({
       (await import("astro-compress")).default({Image : true, JavaScript : true, HTML : false})
   ],
   vite: {
+    server: {
+      watch: {
+        ignored: ['**/.obsidian/**', '**/_bases/**', '**/bases/**', '**/_home/**', '**/home/**', '**/_base/**', '**/base/**']
+      }
+    },
+    assetsInclude: ['**/*.base', '**/.obsidian/**', '**/_bases/**'],
     plugins: [tailwindcss()],
     define: {
         'import.meta.env.DEFAULT_LOCALE': JSON.stringify(DEFAULT_LOCALE)
