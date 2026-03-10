@@ -6,6 +6,8 @@ import cloudflare from "@astrojs/cloudflare";
 import tailwindcss from '@tailwindcss/vite';
 import compress from "astro-compress";
 import mermaid from "astro-mermaid";
+import rehypeCallouts from "rehype-callouts";
+import expressiveCode from "astro-expressive-code";
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
@@ -125,6 +127,9 @@ export default defineConfig({
     domains: ['vitejs.dev', 'upload.wikimedia.org', 'astro.build', 'pagepro.co', 'cdn.jsdelivr.net'],
   },
   adapter: getAdapter(),
+  markdown: {
+    rehypePlugins: [rehypeCallouts],
+  },
   integrations: [
       sitemap({
           filter: (page) => {
@@ -134,6 +139,14 @@ export default defineConfig({
           }
       }), 
       react(), 
+      expressiveCode({
+        themes: ['github-dark'],
+        styleOverrides: {
+          borderRadius: '0.75rem',
+          borderColor: 'rgba(255,255,255,0.08)',
+          codeFontFamily: 'JetBrains Mono, monospace',
+        },
+      }),
       mdx(),
       mermaid(),
       (await import("astro-compress")).default({Image : true, JavaScript : true, HTML : false})

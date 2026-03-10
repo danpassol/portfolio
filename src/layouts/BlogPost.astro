@@ -33,8 +33,7 @@ const schema = {
   ...(heroImage && { "image": new URL(heroImage, Astro.site).toString() }),
   "author": {
       "@type": "Person",
-      "name": "Cooper Team",
-      "url": "https://cooper.example.com" // Replace with dynamic author if available
+      "name": "Dani Pastor"
   }
 };
 import ScrollProgress from '~/components/layout/ScrollProgress.astro';
@@ -98,8 +97,22 @@ import ScrollProgress from '~/components/layout/ScrollProgress.astro';
         <hr class="border-black/10 dark:border-white/10 mt-8" />
     </div>
 
-    <div class="prose prose-lg mx-auto prose-img:rounded-xl prose-headings:font-display prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary/80 dark:prose-invert">
+    <div id="blog-content" class="prose prose-lg mx-auto prose-img:rounded-xl prose-headings:font-display prose-headings:font-bold prose-a:text-primary hover:prose-a:text-primary/80 dark:prose-invert">
       <slot />
     </div>
   </article>
 </Layout>
+
+<script>
+  import mediumZoom from 'medium-zoom';
+
+  function init() {
+    mediumZoom('#blog-content img:not(.no-zoom)', {
+      background: 'rgba(7, 9, 15, 0.92)',
+      margin: 24,
+    });
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
