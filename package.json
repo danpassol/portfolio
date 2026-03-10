@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev --host",
     "start": "astro dev",
-    "build": "astro build && cd dist/client && pagefind --site . --output-path pagefind",
+    "build": "npm run build && pagefind --site dist --output-path dist/pagefind",
     "build:vercel": "cross-env ADAPTER=vercel astro build && pagefind --site dist",
     "build:netlify": "cross-env ADAPTER=netlify astro build && pagefind --site dist",
     "build:cloudflare": "cross-env ADAPTER=cloudflare astro build && pagefind --site dist",
