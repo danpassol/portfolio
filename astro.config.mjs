@@ -82,51 +82,15 @@ console.log('Excluding URLs from sitemap:', noIndexUrls);
 
 const DEFAULT_LOCALE = "es";
 
-import vercel from "@astrojs/vercel";
-import netlify from "@astrojs/netlify";
-import node from "@astrojs/node";
-import process from "node:process";
-
-// ... other imports
-
-// Adapter selection strategy
-function getAdapter() {
-  const adapter = process.env.ADAPTER || 'node';
-  
-  switch (adapter) {
-    case 'vercel':
-      return vercel({
-        webAnalytics: { enabled: true }
-      });
-    case 'netlify':
-      return netlify();
-    case 'cloudflare':
-      return cloudflare({
-        platformProxy: {
-          enabled: true,
-        },
-        runtime: {
-          mode: 'advanced',
-          type: 'worker',
-          nodejsCompat: true,
-        },
-      });
-    case 'node':
-    default:
-      return node({
-        mode: 'standalone'
-      });
-  }
-}
-
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://cooper.gladtek.com',
+  site: 'https://dpastor.eu',
   output: 'static',
-  image: {
-    domains: ['vitejs.dev', 'upload.wikimedia.org', 'astro.build', 'pagepro.co', 'cdn.jsdelivr.net'],
-  },
-  adapter: getAdapter(),
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+    },
+  }),
   markdown: {
     rehypePlugins: [rehypeCallouts],
   },
