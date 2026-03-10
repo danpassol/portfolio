@@ -1,33 +1,30 @@
-
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import { siteConfig } from '../site.config';
 
 export async function GET(context) {
-	const blog = await getCollection('blog');
-	const changelog = await getCollection('changelog');
+  const blog = await getCollection('blog');
 
-	const items = [
-		...blog.map((post) => ({
-			title: post.data.title,
-			pubDate: post.data.pubDate,
-			description: post.data.description,
-			link: `/blog/${post.slug}/`,
-		})),
-		...changelog.map((entry) => ({
-			title: `${entry.data.version} - ${entry.data.title}`,
-			pubDate: entry.data.pubDate,
-			description: entry.data.description,
-			link: `/changelog#${entry.data.version.replace(/\./g, '-')}`,
-		})),
-	].sort((a, b) => new Date(b.pubDate).valueOf() - new Date(a.pubDate).valueOf());
+  const items = blog
+    .sort((a, b) => new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf())
+    .map((post) => {
+      // post.id = "es/mi-post.md" o "en/my-post.md"
+      const [lang, ...rest] = post.id.split('/');
+      const slug = rest.join('/').replace(/\.[^/.]+$/, '');
+      return {
+        title: post.data.title,
+        pubDate: post.data.pubDate,
+        description: post.data.description,
+        link: `/${lang}/blog/${slug}/`,
+      };
+    });
 
-	return rss({
-		title: siteConfig.name,
-		description: siteConfig.description,
-		site: context.site,
-		items: items,
-		customData: `<language>es-es</language>`,
-		trailingSlash: false,
-	});
+  return rss({
+    title: siteConfig.name,
+    description: siteConfig.description,
+    site: context.site,
+    items,
+    customData: `<language>es</language>`,
+    trailingSlash: false,
+  });
 }
