@@ -17,7 +17,6 @@ export const siteConfig = {
   },
   contact: {
     email: {
-      support: 'support@dpastor.eu',
       other: 'hola@dpastor.eu'
     }
   },

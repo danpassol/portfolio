@@ -1,6 +1,5 @@
 ---
 import Layout from './Layout.astro';
-import { Image } from 'astro:assets';
 import AudioPlayer from '~/components/common/AudioPlayer.astro';
 import { defaultLang } from '~/i18n/ui';
 import { isRtl, useTranslations } from '~/i18n/utils';
@@ -10,7 +9,7 @@ interface Props {
   description: string;
   pubDate: Date;
   updatedDate?: Date;
-  heroImage?: ImageMetadata;
+  heroImage?: string;
   youtubeId?: string;
   audioUrl?: string; // Add audioUrl prop
   isVideo?: boolean;
@@ -31,7 +30,7 @@ const schema = {
   "description": description,
   "datePublished": pubDate.toISOString(),
   ...(updatedDate && { "dateModified": updatedDate.toISOString() }),
-  ...(heroImage && { "image": new URL(heroImage.src, Astro.site).toString() }),
+  ...(heroImage && { "image": new URL(heroImage, Astro.site).toString() }),
   "author": {
       "@type": "Person",
       "name": "Cooper Team",
@@ -43,7 +42,7 @@ import ScrollProgress from '~/components/layout/ScrollProgress.astro';
 
 <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head"></script>
 
-<Layout title={title} description={description} image={heroImage?.src} article={true} noindex={noindex} nofollow={nofollow} availableLangs={availableLangs}>
+<Layout title={title} description={description} image={heroImage} article={true} noindex={noindex} nofollow={nofollow} availableLangs={availableLangs}>
   <ScrollProgress />
   <article class="max-w-4xl mx-auto px-6 py-20" data-pagefind-body>
     <div class="mb-8">
@@ -56,7 +55,7 @@ import ScrollProgress from '~/components/layout/ScrollProgress.astro';
     <div class="mb-12 text-center">
         {heroImage && !youtubeId && (
             <div class="rounded-2xl overflow-hidden mb-8 border border-black/10 dark:border-white/10 shadow-2xl">
-                <Image src={heroImage} alt="" class="w-full object-cover aspect-video" />
+                <img src={heroImage} alt="" class="w-full object-cover aspect-video" />
             </div>
         )}
 
