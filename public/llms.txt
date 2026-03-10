@@ -1,31 +1,45 @@
 # dpastor.eu
 
-> Portfolio of Daniel Pastor, a sysadmin based on Spain
+> Portfolio and consulting landing page of Daniel Pastor, a sysadmin, DevOps, infrastructure and IT security professional based in Spain.
 
 ## Summary
 
-This page is the portfolio of Daniel Pastor, a sysadmin based on spain, this page is SEO prepared, uses Astro.build as a main framework and explains everything about tech, the roadmap of Dani along the years, his studies...
+This is the personal portfolio and consulting site of Daniel Pastor (Dani), a systems administrator and IT security professional based in Spain. The site showcases his technical background, projects, and professional services, and includes a blog with articles on sysadmin, DevOps, cybersecurity, and infrastructure topics.
 
 ## Architecture
 
-- **Framework**: Astro (Static Site Generation by default)
-- **Styling**: Tailwind CSS + Custom Design System
-- **Interactivity**: React Islands (for complex components like Search, Forms)
-- **Content**: MDX (Docs, Blog, Changelog) + obsidian
-- **Search**: Pagefind (Static, Client-side)
-
+- **Framework**: Astro (Static Site Generation with SSR endpoints)
+- **Styling**: Tailwind CSS + Custom Design System (dark space theme)
+- **Interactivity**: React Islands (Search, Contact Form, Navigation)
+- **Content**: Markdown via Obsidian/Vault CMS workflow
+- **Search**: Pagefind (static, client-side, Cmd+K interface)
+- **Code blocks**: Expressive Code (syntax highlighting, copy button)
+- **Deployment**: Cloudflare Pages
 
 ## Navigation
 
-- [Home](/) - The landing page where explains a little about him
-- [Blog](/blog) - Articles and tutorials.
-- [Contact](/contact) - Contact form with validation and global config integration.
+- [Home](/es/) - Landing page with professional summary and tech stack
+- [Blog](/es/blog) - Articles and tutorials on sysadmin, DevOps and cybersecurity
+- [Projects](/es/projects) - Portfolio of infrastructure and IT projects
+- [About](/es/about) - Professional background and experience
+- [Contact](/es/contact) - Contact form powered by Resend API
+
+## Internationalization
+
+The site is fully bilingual (Spanish / English). Spanish is the primary language.
+- Spanish: `/es/`
+- English: `/en/`
+- Posts not yet translated show a language badge and are still accessible.
 
 ## Features
 
-- **Zero-JS by Default**: Static HTML first, hydration only when needed.
-- **Universal Search**: `Cmd+K` interface powered by Pagefind.
-- **Theme Support**: Built-in Dark/Light mode with persistence.
-- **RSS Feed**: Automatic feed generation at `/rss.xml`.
-- **Sitemap**: Intelligent sitemap generation excluding `noindex` pages.
-- **SEO**: JSON-LD structured data, meta tags, and Open Graph support.
+- **Bilingual i18n**: Full ES/EN support with Accept-Language based redirect and hreflang SEO tags.
+- **Universal Search**: Cmd+K interface powered by Pagefind, indexes blog and projects.
+- **Theme Support**: Dark mode by default with light mode toggle and localStorage persistence.
+- **RSS Feed**: Auto-generated feed at `/rss.xml` covering all blog posts in both languages.
+- **Sitemap**: Intelligent sitemap excluding noindex pages.
+- **SEO**: JSON-LD structured data (BlogPosting, Organization, BreadcrumbList), Open Graph, Twitter Cards, hreflang alternates.
+- **Contact Form**: Validated form with Resend API integration, sends to hola@dpastor.eu.
+- **Obsidian CMS**: Blog content written in Obsidian via Vault CMS workflow with compatible frontmatter.
+- **Callouts**: Obsidian callout syntax rendered via rehype-callouts.
+- **Image Zoom**: Click-to-zoom on blog images via medium-zoom.
