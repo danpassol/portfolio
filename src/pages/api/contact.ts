@@ -1,4 +1,6 @@
 import type { APIRoute } from 'astro';
+import { getConfirmationEmail } from '~/lib/emails/confirmation';
+
 export const prerender = false;
 
 const RATE_LIMIT_MAX = 3;       // máx mensajes
@@ -16,7 +18,8 @@ function hashSimple(str: string): string {
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
 
-    const kv: KVNamespace | undefined = locals?.runtime?.env?.CONTACT_RL;
+    // ── Rate limiting ──────────────────────────────────────────────
+    const kv = (locals as any)?.runtime?.env?.CONTACT_RL;
 
     if (kv) {
       const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
@@ -36,11 +39,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
       record.count += 1;
       await kv.put(key, JSON.stringify(record), { expirationTtl: RATE_LIMIT_TTL });
     }
+    // ──────────────────────────────────────────────────────────────
 
     const body = await request.json();
-    const { name, email, message, lang } = body;
+    const { name, surname, email, message, lang } = body;
 
-    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+    if (!name?.trim() || !surname?.trim() || !email?.trim() || !message?.trim()) {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -54,7 +58,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    const apiKey = (locals?.runtime?.env?.RESEND_API_KEY) || import.meta.env.RESEND_API_KEY;
+    const apiKey = (locals as any)?.runtime?.env?.RESEND_API_KEY || import.meta.env.RESEND_API_KEY;
 
     if (!apiKey) {
       console.error('RESEND_API_KEY not set');
@@ -64,6 +68,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
+    // ── Email 1 — notificación a hola@dpastor.eu ──────────────────
     const res = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -74,11 +79,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
         from: 'dpastor.eu <noreply@dpastor.eu>',
         to: ['hola@dpastor.eu'],
         reply_to: email,
-        subject: `[dpastor.eu] Nuevo mensaje de ${name}`,
+        subject: `[dpastor.eu] Nuevo mensaje de ${name} ${surname}`,
         html: `
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #4a8fe8;">Nuevo mensaje desde dpastor.eu</h2>
-            <p><strong>Nombre:</strong> ${name}</p>
+            <p><strong>Nombre:</strong> ${name} ${surname}</p>
             <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
             <p><strong>Idioma:</strong> ${lang || 'es'}</p>
             <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
@@ -99,6 +104,32 @@ export const POST: APIRoute = async ({ request, locals }) => {
         headers: { 'Content-Type': 'application/json' },
       });
     }
+
+    // ── Email 2 — confirmación al cliente (con fallo silencioso) ──────
+    try {
+      const { subject, html } = getConfirmationEmail(name, message, lang || 'es');
+
+      const confirmRes = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'dpastor.eu <noreply@dpastor.eu>',
+          to: [email],
+          subject,
+          html,
+        }),
+      });
+
+      if (!confirmRes.ok) {
+        console.warn('Confirmation email failed:', await confirmRes.text());
+      }
+    } catch (confirmErr) {
+      console.warn('Confirmation email error:', confirmErr);
+    }
+    // ──────────────────────────────────────────────────────────────
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

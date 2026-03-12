@@ -5,12 +5,12 @@ import { Check, Loader2, Send, Clock } from 'lucide-react';
 export default function ContactForm({ lang = 'es' }) {
   const [status, setStatus] = useState('idle'); // idle, submitting, success, error, rate_limit
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', surname: '', email: '', message: '' });
 
   const i18n = {
     es: {
-      name: 'Nombre', email: 'Email', message: 'Mensaje',
-      namePlaceholder: 'Tu nombre', emailPlaceholder: 'tu@email.com',
+      name: 'Nombre', surname: 'Apellidos', email: 'Email', message: 'Mensaje',
+      namePlaceholder: 'Tu nombre', surnamePlaceholder: 'Tus apellidos', emailPlaceholder: 'tu@email.com',
       messagePlaceholder: '¿En qué puedo ayudarte?',
       send: 'Enviar mensaje', sending: 'Enviando...',
       successTitle: '¡Mensaje enviado!',
@@ -23,8 +23,8 @@ export default function ContactForm({ lang = 'es' }) {
       invalidEmail: 'Email no válido',
     },
     en: {
-      name: 'Name', email: 'Email', message: 'Message',
-      namePlaceholder: 'Your name', emailPlaceholder: 'you@email.com',
+      name: 'First name', surname: 'Last name', email: 'Email', message: 'Message',
+      namePlaceholder: 'Your first name', surnamePlaceholder: 'Your last name', emailPlaceholder: 'you@email.com',
       messagePlaceholder: 'How can I help you?',
       send: 'Send message', sending: 'Sending...',
       successTitle: 'Message sent!',
@@ -43,6 +43,7 @@ export default function ContactForm({ lang = 'es' }) {
   const validate = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = t.required;
+    if (!formData.surname.trim()) newErrors.surname = t.required;
     if (!formData.email.trim()) {
       newErrors.email = t.required;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -67,7 +68,7 @@ export default function ContactForm({ lang = 'es' }) {
 
       if (res.ok) {
         setStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', surname: '', email: '', message: '' });
       } else if (res.status === 429) {
         setStatus('rate_limit');
       } else {
@@ -142,17 +143,32 @@ export default function ContactForm({ lang = 'es' }) {
             className="space-y-4"
             noValidate
           >
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2 text-muted-foreground">
-                {t.name} <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text" id="name"
-                value={formData.name} onChange={handleChange}
-                className={inputClass('name')}
-                placeholder={t.namePlaceholder}
-              />
-              {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium mb-2 text-muted-foreground">
+                  {t.name} <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text" id="name"
+                  value={formData.name} onChange={handleChange}
+                  className={inputClass('name')}
+                  placeholder={t.namePlaceholder}
+                />
+                {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="surname" className="block text-sm font-medium mb-2 text-muted-foreground">
+                  {t.surname} <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text" id="surname"
+                  value={formData.surname} onChange={handleChange}
+                  className={inputClass('surname')}
+                  placeholder={t.surnamePlaceholder}
+                />
+                {errors.surname && <p className="mt-1 text-xs text-red-500">{errors.surname}</p>}
+              </div>
             </div>
 
             <div>
