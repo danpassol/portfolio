@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check, Loader2, Send } from 'lucide-react';
+import { Check, Loader2, Send, Clock } from 'lucide-react';
 
 export default function ContactForm({ lang = 'es' }) {
-  const [status, setStatus] = useState('idle'); // idle, submitting, success, error
+  const [status, setStatus] = useState('idle'); // idle, submitting, success, error, rate_limit
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
@@ -17,6 +17,8 @@ export default function ContactForm({ lang = 'es' }) {
       successDesc: 'Te responderé lo antes posible.',
       sendAnother: 'Enviar otro mensaje',
       errorMsg: 'Algo ha ido mal. Inténtalo de nuevo.',
+      rateLimitTitle: 'Límite alcanzado',
+      rateLimitDesc: 'Has superado el número máximo de mensajes permitidos. Puedes volver a intentarlo en 24 horas.',
       required: 'Campo obligatorio',
       invalidEmail: 'Email no válido',
     },
@@ -29,6 +31,8 @@ export default function ContactForm({ lang = 'es' }) {
       successDesc: "I'll get back to you as soon as possible.",
       sendAnother: 'Send another message',
       errorMsg: 'Something went wrong. Please try again.',
+      rateLimitTitle: 'Limit reached',
+      rateLimitDesc: 'You have exceeded the maximum number of messages allowed. Please try again in 24 hours.',
       required: 'Required field',
       invalidEmail: 'Invalid email',
     },
@@ -64,6 +68,8 @@ export default function ContactForm({ lang = 'es' }) {
       if (res.ok) {
         setStatus('success');
         setFormData({ name: '', email: '', message: '' });
+      } else if (res.status === 429) {
+        setStatus('rate_limit');
       } else {
         setStatus('error');
       }
@@ -87,8 +93,9 @@ export default function ContactForm({ lang = 'es' }) {
     }`;
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm">
+    <div className="w-full max-w-md mx-auto bg-foreground/3 p-8 rounded-3xl border border-foreground/10 backdrop-blur-sm">
       <AnimatePresence mode="wait">
+
         {status === 'success' ? (
           <motion.div
             key="success"
@@ -109,6 +116,22 @@ export default function ContactForm({ lang = 'es' }) {
               {t.sendAnother}
             </button>
           </motion.div>
+
+        ) : status === 'rate_limit' ? (
+          <motion.div
+            key="rate_limit"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="text-center py-12"
+          >
+            <div className="w-16 h-16 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Clock className="w-8 h-8" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2">{t.rateLimitTitle}</h3>
+            <p className="text-muted-foreground">{t.rateLimitDesc}</p>
+          </motion.div>
+
         ) : (
           <motion.form
             key="form"
@@ -175,6 +198,7 @@ export default function ContactForm({ lang = 'es' }) {
             </button>
           </motion.form>
         )}
+
       </AnimatePresence>
     </div>
   );

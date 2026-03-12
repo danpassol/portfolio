@@ -18,7 +18,7 @@ const { title, description } = Astro.props;
       <span class="label-tag block mb-4">Funcionalidades</span>
       <h2 class="font-display font-bold mb-4 leading-tight"
         style="font-size: clamp(2rem, 4vw, 3rem);" set:html={title} />
-      <p style="color: rgba(176,196,230,0.65);" class="text-lg">{description}</p>
+      <p class="text-lg text-muted-foreground">{description}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[300px]">

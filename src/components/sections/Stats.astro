@@ -13,12 +13,12 @@ const t = useTranslations(lang);
 const disclaimer = (t as any)['stats.disclaimer'] ?? '';
 ---
 <section class="py-20 relative overflow-hidden"
-  style="border-top: 1px solid rgba(74,143,232,0.1); border-bottom: 1px solid rgba(74,143,232,0.1); background: rgba(11,15,26,0.5);">
+  style="border-top: 1px solid rgba(74,143,232,0.1); border-bottom: 1px solid rgba(74,143,232,0.1); background: var(--surface-1);">
     <div class="max-w-7xl mx-auto px-6">
         {title && (
             <div class="mb-12 text-center max-w-2xl mx-auto">
                 <h2 class="font-display font-bold mb-4" style="font-size: clamp(1.8rem, 3vw, 2.5rem);">{title}</h2>
-                {description && <p style="color: rgba(176,196,230,0.6);">{description}</p>}
+                {description && <p class="text-muted-foreground">{description}</p>}
             </div>
         )}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -26,7 +26,7 @@ const disclaimer = (t as any)['stats.disclaimer'] ?? '';
         </div>
         {disclaimer && (
             <div class="text-center mt-10">
-                <p class="text-xs" style="color: rgba(176,196,230,0.3);">{disclaimer}</p>
+                <p class="text-xs text-muted-foreground/40">{disclaimer}</p>
             </div>
         )}
     </div>

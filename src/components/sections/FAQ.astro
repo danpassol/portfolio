@@ -36,7 +36,7 @@ const schema = {
 
 <section class="py-24 relative overflow-hidden" id="faq">
     <!-- Background element -->
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/5 rounded-[100%] blur-[120px] pointer-events-none"></div>
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-125 bg-primary/5 rounded-[100%] blur-[120px] pointer-events-none"></div>
 
     <div class="max-w-3xl mx-auto px-6 relative z-10">
         <div class="text-center mb-16">
@@ -46,7 +46,7 @@ const schema = {
 
         <div class="space-y-4">
             {items.map((faq) => (
-                <details class="group border border-white/5 bg-white/2 hover:bg-white/4 backdrop-blur-sm rounded-2xl transition-all duration-300 open:bg-white/5 open:border-primary/20">
+                <details class="group border border-foreground/8 bg-foreground/2 hover:bg-foreground/4 backdrop-blur-sm rounded-2xl transition-all duration-300 open:bg-foreground/5 open:border-primary/20">
                     <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
                         <span class="text-lg font-medium pr-8">{faq.question}</span>
                         <span class="transition-transform duration-300 group-open:rotate-180 text-primary">

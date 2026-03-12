@@ -35,7 +35,7 @@ const isBoxed = variant === 'boxed';
 <section class={isBoxed ? "mt-24 max-w-4xl mx-auto px-6" : "py-32 relative overflow-hidden"}>
     {!isBoxed && (
       <div class="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full"
+        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-225 h-125 rounded-full"
           style="background: radial-gradient(ellipse, rgba(74,143,232,0.12) 0%, rgba(124,92,252,0.06) 40%, transparent 70%); filter: blur(60px);">
         </div>
       </div>
@@ -54,8 +54,7 @@ const isBoxed = variant === 'boxed';
           set:html={title}
         />
 
-        <p class={isBoxed ? "mb-8 max-w-md mx-auto" : "text-xl mb-10 max-w-2xl mx-auto"}
-          style="color: rgba(176,196,230,0.7);">
+        <p class={`${isBoxed ? "mb-8 max-w-md mx-auto" : "text-xl mb-10 max-w-2xl mx-auto"} text-muted-foreground`}>
           {description}
         </p>
 
@@ -72,17 +71,14 @@ const isBoxed = variant === 'boxed';
             </svg>
           </a>
           <a href={secondaryBtn.href}
-            class="inline-flex items-center px-10 py-4 rounded-full text-base font-medium transition-all duration-200"
-            style="border: 1px solid rgba(74,143,232,0.22); color: rgba(176,196,230,0.8); background: rgba(74,143,232,0.04);"
-            onmouseover="this.style.borderColor='rgba(74,143,232,0.45)'; this.style.color='rgba(240,244,255,0.95)'"
-            onmouseout="this.style.borderColor='rgba(74,143,232,0.22)'; this.style.color='rgba(176,196,230,0.8)'"
+            class="inline-flex items-center px-10 py-4 rounded-full text-base font-medium text-foreground/70 hover:text-foreground transition-all duration-200 border border-primary/20 hover:border-primary/45 bg-primary/4 hover:bg-primary/8"
           >
             {secondaryBtn.text}
           </a>
         </div>
 
         {disclaimer && !isBoxed && (
-          <p class="mt-6 text-sm" style="color: rgba(176,196,230,0.4);">{disclaimer}</p>
+          <p class="mt-6 text-sm text-muted-foreground/60">{disclaimer}</p>
         )}
     </div>
 </section>

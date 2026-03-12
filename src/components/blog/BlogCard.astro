@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import { ui, defaultLang } from '~/i18n/ui';
 import { isRtl, useTranslations } from '~/i18n/utils';
 import Card from '~/components/ui/Card.astro';
@@ -10,7 +9,7 @@ interface Props {
   description: string;
   pubDate: Date;
   slug: string;
-  heroImage?: ImageMetadata;
+  heroImage?: string;
   isVideo?: boolean;
   unavailable?: boolean;
 }
@@ -34,12 +33,10 @@ const dateString = pubDate.toLocaleDateString(lang, {
   <a href={slug} class="block h-full">
     <div class="relative aspect-video w-full overflow-hidden" style="background: var(--surface-3);">
       {heroImage ? (
-        <Image
+        <img
           src={heroImage}
           alt={title}
           class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          width={600}
-          densities={[1.5, 2]}
         />
       ) : (
         <div class="h-full w-full flex items-center justify-center">
@@ -75,23 +72,22 @@ const dateString = pubDate.toLocaleDateString(lang, {
     </div>
 
     <div class="p-6">
-      <div class="flex items-center gap-2 mb-3" style="color: rgba(176,196,230,0.45); font-size: 0.75rem;">
+      <div class="flex items-center gap-2 mb-3 text-muted-foreground/60 text-xs">
         <time datetime={pubDate.toISOString()}>{dateString}</time>
         <span>·</span>
         <span>{t['nav.blog']}</span>
       </div>
 
-      <h3 class="font-display font-bold mb-2 transition-colors duration-200 group-hover:text-electric leading-snug"
-        style="font-size: 1.1rem; color: rgba(240,244,255,0.95);">
+      <h3 class="font-display font-bold mb-2 transition-colors duration-200 group-hover:text-electric leading-snug text-foreground"
+        style="font-size: 1.1rem;">
         {title}
       </h3>
 
-      <p class="text-sm line-clamp-2" style="color: rgba(176,196,230,0.6);">
+      <p class="text-sm line-clamp-2 text-muted-foreground">
         {description}
       </p>
 
-      <div class={`mt-4 flex items-center gap-1.5 text-xs font-medium opacity-0 transition-all duration-300 group-hover:opacity-100 ${isRtl(lang) ? 'translate-x-2 group-hover:translate-x-0' : '-translate-x-1 group-hover:translate-x-0'}`}
-        style="color: #5ba3f5;">
+      <div class={`mt-4 flex items-center gap-1.5 text-xs font-medium opacity-0 transition-all duration-300 group-hover:opacity-100 text-primary ${isRtl(lang) ? 'translate-x-2 group-hover:translate-x-0' : '-translate-x-1 group-hover:translate-x-0'}`}>
         <span>{t['blog.readMore']}</span>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class={isRtl(lang) ? 'rotate-180' : ''}>
           <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>

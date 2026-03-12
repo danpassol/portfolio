@@ -21,7 +21,7 @@ const { title, description } = Astro.props;
   <div class="relative z-10 flex flex-col items-start h-full">
     <!-- Icon wrapper -->
     <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
-      style="background: rgba(74,143,232,0.1); color: #5ba3f5; border: 1px solid rgba(74,143,232,0.2);">
+      style="background: rgba(74,143,232,0.1); color: var(--color-electric); border: 1px solid rgba(74,143,232,0.2);">
       <slot name="icon" />
     </div>
 
@@ -29,7 +29,7 @@ const { title, description } = Astro.props;
       {title}
     </h3>
 
-    <p class="text-sm leading-relaxed grow" style="color: rgba(176,196,230,0.65);">
+    <p class="text-sm leading-relaxed grow text-muted-foreground">
       {description}
     </p>
   </div>

@@ -1,8 +1,42 @@
 import type { APIRoute } from 'astro';
 export const prerender = false;
 
+const RATE_LIMIT_MAX = 3;       // máx mensajes
+const RATE_LIMIT_TTL = 86400;   // 24 horas en segundos
+
+function hashSimple(str: string): string {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(16);
+}
+
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
+
+    const kv: KVNamespace | undefined = locals?.runtime?.env?.CONTACT_RL;
+
+    if (kv) {
+      const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+      const ua = request.headers.get('User-Agent') ?? 'unknown';
+      const key = `rate:${ip}:${hashSimple(ua)}`;
+
+      const raw = await kv.get(key);
+      const record = raw ? JSON.parse(raw) : { count: 0, firstSeen: Date.now() };
+
+      if (record.count >= RATE_LIMIT_MAX) {
+        return new Response(JSON.stringify({ error: 'rate_limit' }), {
+          status: 429,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      record.count += 1;
+      await kv.put(key, JSON.stringify(record), { expirationTtl: RATE_LIMIT_TTL });
+    }
+
     const body = await request.json();
     const { name, email, message, lang } = body;
 
@@ -20,8 +54,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Cloudflare runtime env → locals.runtime.env
-    // Fallback a import.meta.env para dev local
     const apiKey = (locals?.runtime?.env?.RESEND_API_KEY) || import.meta.env.RESEND_API_KEY;
 
     if (!apiKey) {
