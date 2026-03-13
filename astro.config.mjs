@@ -7,6 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 import compress from "astro-compress";
 import mermaid from "astro-mermaid";
 import rehypeCallouts from "rehype-callouts";
+import rehypeExternalLinks from "rehype-external-links";
 import expressiveCode from "astro-expressive-code";
 import fs from 'node:fs';
 import path from 'node:path';
@@ -80,7 +81,7 @@ function getNoIndexUrls() {
 const noIndexUrls = getNoIndexUrls();
 console.log('Excluding URLs from sitemap:', noIndexUrls);
 
-const DEFAULT_LOCALE = "es";
+const DEFAULT_LOCALE = "en";
 
 // https://astro.build/config
 export default defineConfig({
@@ -92,7 +93,10 @@ export default defineConfig({
     },
   }),
   markdown: {
-    rehypePlugins: [rehypeCallouts],
+    rehypePlugins: [
+      rehypeCallouts,
+      [rehypeExternalLinks, { target: '_blank', rel: ['noopener', 'noreferrer'] }]
+    ],
   },
   integrations: [
       sitemap({
@@ -131,7 +135,7 @@ export default defineConfig({
     defaultLocale: DEFAULT_LOCALE,
     locales: ["es", "en"],
     routing: {
-        prefixDefaultLocale: true
+        prefixDefaultLocale: false
     }
   }
 });

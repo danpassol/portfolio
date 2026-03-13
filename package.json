@@ -43,6 +43,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "rehype-callouts": "^2.1.2",
+    "rehype-external-links": "^3.0.0",
     "tailwind-merge": "^2.2.0",
     "tailwindcss": "^4.1.7",
     "tailwindcss-animate": "^1.0.7",

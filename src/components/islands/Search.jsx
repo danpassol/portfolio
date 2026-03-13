@@ -117,7 +117,10 @@ export default function Search({ placeholder = "Search...", devModalLabels, lang
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/75 shadow-2xl" 
+              className="absolute inset-0 h-dvh"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0.90) 0%, rgba(255,255,255,0.1) 100%)'
+              }}
               onClick={() => setOpen(false)}
             />
             

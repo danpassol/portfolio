@@ -18,8 +18,8 @@ export default {
                 surface3: "var(--surface-3)",
             },
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
-                display: ['"Playfair Display"', 'Georgia', 'serif'],
+                sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+                display: ['Syne', 'system-ui', 'sans-serif'],
                 mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
             },
             backgroundImage: {
