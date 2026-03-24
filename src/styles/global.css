@@ -71,7 +71,7 @@ html:not(.dark) .page-glow {
 
 /* ── Utility classes ──────────────────────────────────────── */
 .text-gradient {
-  background: linear-gradient(135deg, #5ba3f5 0%, #7c5cfc 100%);
+  background: linear-gradient(135deg, #f58c5b 0%, #7c5cfc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

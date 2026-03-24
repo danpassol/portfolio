@@ -47,7 +47,7 @@ const primaryHref = ACTION_LINKS.primary.href.startsWith('/docs')
 
 <header class="w-full transition-all duration-300 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
   <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <a href={`/${lang}`} class="flex items-center gap-3 text-xl font-bold tracking-tight text-primary dark:text-white group">
+    <a href={`/${lang}`} class="flex items-center gap-3 text-xl font-bold tracking-tight group">
       {siteConfig.logo && (
         siteConfig.logo.strategy === 'switch' ? (
           <>
@@ -78,7 +78,7 @@ const primaryHref = ACTION_LINKS.primary.href.startsWith('/docs')
           />
         )
       )}
-      <span class="md:hidden lg:inline">{t['brand.name'] || siteConfig.name}</span>
+      <span class="md:hidden lg:inline font-display">{t['brand.name'] || siteConfig.name}</span>
     </a>
     <div class="flex-1 flex justify-center mx-4 lg:mx-8">
       <DesktopNav client:load links={links} currentPath={Astro.url.pathname} />
@@ -103,23 +103,22 @@ const primaryHref = ACTION_LINKS.primary.href.startsWith('/docs')
         href={ACTION_LINKS.social.github}
         target="_blank" 
         rel="noopener noreferrer"
-        class="text-foreground hover:text-foreground/70 dark:text-white dark:hover:text-blue-300 transition-colors hidden md:block"
+        class="text-foreground hover:text-primary dark:text-foreground transition-colors hidden md:block"
         aria-label="GitHub"
       >
         <Github className="w-5 h-5" />
       </a>
+      
       <a 
         href='https://clientes.dpastor.eu'
-        class="hidden md:block px-4 py-2 text-sm font-medium text-black dark:text-white rounded-full transition-all"
-        style="border: 1px solid rgba(74,143,232,0.2); background: rgba(74,143,232,0.04);"
-          onmouseover="this.style.borderColor='rgba(74,143,232,0.45)'; this.style.background='rgba(74,143,232,0.08)'"
-          onmouseout="this.style.borderColor='rgba(74,143,232,0.2)'; this.style.background='rgba(74,143,232,0.04)'"
+        class="hidden md:block px-4 py-2 text-sm font-medium text-foreground rounded-full transition-all border border-primary/20 bg-primary/5 hover:border-primary/45 hover:bg-primary/10"
       >
         {t['hero.clients'] || 'acceso clientes'}
       </a>
+      
       <a 
         href={primaryHref}
-        class="hidden md:block px-4 py-2 text-sm font-medium bg-primary text-white rounded-full hover:bg-primary/90 transition-all"
+        class="hidden md:block px-4 py-2 text-sm font-medium bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all shadow-sm hover:shadow-md hover:shadow-primary/20"
       >
         {t['hero.getStarted'] || ACTION_LINKS.primary.label}
       </a>
@@ -129,9 +128,11 @@ const primaryHref = ACTION_LINKS.primary.href.startsWith('/docs')
           client:load 
           links={links} 
           currentPath={Astro.url.pathname} 
+          primaryHref={primaryHref}
           labels={{
             menu: t['nav.menu'],
-            getStarted: t['hero.getStarted'] || ACTION_LINKS.primary.label
+            getStarted: t['hero.getStarted'] || ACTION_LINKS.primary.label,
+            clients: t['hero.clients'] || 'acceso clientes'
           }}
         />
       </div>

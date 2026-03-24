@@ -1,0 +1,113 @@
+<button
+  id="back-to-top"
+  aria-label="Volver arriba"
+  class="fixed bottom-8 right-8 z-50 p-4 rounded-full bg-primary text-primary-foreground shadow-lg transition-all duration-500 ease-in-out opacity-0 translate-y-10 pointer-events-none group overflow-hidden"
+>
+  <div id="rocket-container" class="flex items-center justify-center relative z-10 origin-center">
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      class="w-6 h-6 -rotate-45 group-hover:animate-pulse transition-transform duration-300" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+    >
+      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+      <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+    </svg>
+  </div>
+  <div id="rocket-smoke" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-8 bg-orange-500/80 rounded-full blur-md opacity-0 transition-opacity duration-300 z-0"></div>
+</button>
+
+<style>
+  @keyframes blast-off {
+    0%   { transform: translate(0, 0) rotate(0deg); }
+    10%  { transform: translate(0.5px, 0.5px) rotate(0.5deg); }
+    20%  { transform: translate(-0.5px, -0.5px) rotate(-0.5deg); }
+    30%  { transform: translate(0.5px, -0.5px) rotate(0.5deg); }
+    40%  { transform: translate(-0.5px, 0.5px) rotate(-0.5deg); }
+    
+    50%  { transform: translate(0, 0) rotate(0deg); }
+    
+    100% { 
+      transform: translateY(-130vh) rotate(0deg); 
+    }
+  }
+
+  .animate-blast-off {
+    animation: blast-off 1.2s cubic-bezier(0.5, 0, 0.3, 1) forwards;
+  }
+</style>
+
+<script>
+  const setupRocket = () => {
+    const button = document.getElementById('back-to-top');
+    const rocket = document.getElementById('rocket-container');
+    const smoke = document.getElementById('rocket-smoke');
+    const footer = document.querySelector('footer');
+    
+    if (!button || !rocket || !smoke) return;
+
+    let isFlying = false;
+    let isFooterVisible = false;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isFooterVisible = entry.isIntersecting;
+        updateVisibility();
+      });
+    }, { threshold: 0.1 });
+
+    if (footer) observer.observe(footer);
+
+    const updateVisibility = () => {
+      if (isFlying) return;
+      if (window.scrollY > 500 && !isFooterVisible) {
+        button.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+        button.classList.add('opacity-100', 'translate-y-0');
+      } else {
+        button.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        button.classList.remove('opacity-100', 'translate-y-0');
+      }
+    };
+
+    const launchRocket = () => {
+      if (isFlying) return;
+      isFlying = true;
+
+      rocket.classList.add('animate-blast-off');
+      smoke.classList.add('opacity-100');
+      
+      // Sincronización del scroll suave tras el temblor
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 500);
+
+      // Desvanecemos el botón principal mientras el cohete ya está alto
+      setTimeout(() => {
+        button.classList.add('opacity-0', 'pointer-events-none');
+        button.classList.remove('opacity-100');
+        smoke.classList.remove('opacity-100');
+      }, 1000);
+
+      // Reseteo final cuando el usuario ya está arriba
+      setTimeout(() => {
+        button.classList.add('translate-y-10');
+        rocket.classList.remove('animate-blast-off');
+        isFlying = false;
+        updateVisibility();
+      }, 1800); 
+    };
+
+    window.addEventListener('scroll', updateVisibility);
+    button.addEventListener('click', launchRocket);
+    updateVisibility();
+  };
+
+  setupRocket();
+  document.addEventListener('astro:page-load', setupRocket);
+</script>

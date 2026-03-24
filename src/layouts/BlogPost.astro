@@ -3,6 +3,7 @@ import Layout from './Layout.astro';
 import AudioPlayer from '~/components/common/AudioPlayer.astro';
 import { defaultLang } from '~/i18n/ui';
 import { isRtl, useTranslations } from '~/i18n/utils';
+import BackToTop from '~/components/ui/BackToTop.astro';
 
 interface Props {
   title: string;
@@ -42,7 +43,8 @@ import ScrollProgress from '~/components/layout/ScrollProgress.astro';
 <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head"></script>
 
 <Layout title={title} description={description} image={heroImage} article={true} noindex={noindex} nofollow={nofollow} availableLangs={availableLangs}>
-  <ScrollProgress />
+    <BackToTop />
+    <ScrollProgress />
   <article class="max-w-4xl mx-auto px-6 py-20 backdrop-blur-sm" data-pagefind-body>
     <div class="mb-8">
         <a href={`/${lang}/blog`} class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">

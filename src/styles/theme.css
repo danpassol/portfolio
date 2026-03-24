@@ -6,16 +6,16 @@
   --muted-foreground: #3d4f6e;
   --primary-foreground: #ffffff;
 
-  --color-primary: #2563eb;
+  --color-primary: #7c5cfc;
   --color-primary-glow: #1d4ed8;
   --color-accent: #6d28d9;
-  --color-electric: #3b82f6;
+  --color-electric: #6d28d9;
 
-  --surface-1: #dde3ef;
-  --surface-2: #d0d8e8;
-  --surface-3: #c8d0e2;
-  --surface-border: rgba(37, 99, 235, 0.18);
-  --surface-border-hover: rgba(37, 99, 235, 0.4);
+  --surface-1: #f3f0ff;
+  --surface-2: #f3f0ff;
+  --surface-3: #f3f0ff;
+  --surface-border: rgba(124, 92, 252, 0.12);
+  --surface-border-hover: rgba(124, 92, 252, 0.35);
 
   --glow-blue: rgba(37, 99, 235, 0.12);
   --glow-purple: rgba(109, 40, 217, 0.08);
@@ -35,16 +35,16 @@
   --muted-foreground: #7a8baa;
   --primary-foreground: #ffffff;
 
-  --color-primary: #4a8fe8;
+  --color-primary: #7c5cfc;
   --color-primary-glow: #3b7dd8;
   --color-accent: #7c5cfc;
-  --color-electric: #5ba3f5;
+  --color-electric: #6d28d9;
 
-  --surface-1: #0b0f1a;
-  --surface-2: #0f1524;
-  --surface-3: #131b2e;
-  --surface-border: rgba(74, 143, 232, 0.12);
-  --surface-border-hover: rgba(74, 143, 232, 0.28);
+  --surface-1: #090616;
+  --surface-2: #0f0b24;
+  --surface-3: #161135;
+  --surface-border: rgba(124, 92, 252, 0.15);
+  --surface-border-hover: rgba(124, 92, 252, 0.3);
 
   --glow-blue: rgba(74, 143, 232, 0.15);
   --glow-purple: rgba(124, 92, 252, 0.12);

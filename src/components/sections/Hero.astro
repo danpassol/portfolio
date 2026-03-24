@@ -1,14 +1,13 @@
 ---
 import { ui, defaultLang } from '~/i18n/ui';
 import { useTranslations } from '~/i18n/utils';
-import Button from '~/components/ui/Button.astro';
-import Badge from '~/components/ui/Badge.astro';
 
 interface Props {
   badge?: string;
   title?: string;
   highlight?: string;
-  description?: string;
+  description1?: string;
+  description2?: string;
   primaryCta?: { text: string; href: string };
   secondaryCta?: { text: string; href: string };
 }
@@ -20,60 +19,50 @@ const {
   badge = t['hero.badge'],
   title = t['hero.title'],
   highlight = t['hero.highlight'],
-  description = t['hero.subtitle'],
+  description1 = t['hero.subtitle1'],
+  description2 = t['hero.subtitle2'],
   primaryCta = { text: t['hero.getStarted'], href: "/contact" },
   secondaryCta = { text: t['hero.learnMore'], href: "/about" }
 } = Astro.props;
 ---
 
 <section class="relative min-h-[92vh] flex items-center justify-center overflow-hidden pt-20">
-  <!-- Central blue glow (characteristic of dpastor.eu) -->
   <div class="absolute inset-0 z-0 pointer-events-none" aria-hidden="true">
-    <div class="absolute top-[15%] left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full"
-      style="background: radial-gradient(ellipse, rgba(59, 125, 216, 0.18) 0%, rgba(74, 143, 232, 0.06) 45%, transparent 70%); filter: blur(40px);">
-    </div>
-    <div class="absolute top-[10%] left-1/2 -translate-x-1/2 w-[300px] h-[300px] rounded-full"
-      style="background: radial-gradient(ellipse, rgba(91, 163, 245, 0.12) 0%, transparent 65%); filter: blur(20px);">
-    </div>
-    <!-- Subtle grid overlay -->
-    <div class="absolute inset-0 opacity-[0.03]"
-      style="background-image: linear-gradient(rgba(74,143,232,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(74,143,232,0.8) 1px, transparent 1px); background-size: 60px 60px;">
+    <div class="absolute top-[25%] left-1/2 -translate-x-1/2 w-75 h-75 rounded-full bg-primary/12 blur-[32px]">
     </div>
   </div>
+    <div class="absolute inset-0 opacity-[0.03] grid-bg"></div>
 
   <div class="container mx-auto px-6 relative z-10 text-center max-w-5xl">
     <div class="hero-content">
 
-      <!-- Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-8 text-xs font-semibold tracking-widest uppercase"
-        style="border-color: rgba(74,143,232,0.3); background: rgba(74,143,232,0.06); color: #5ba3f5; letter-spacing: 0.12em;">
-        <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border mb-8 text-xs font-semibold tracking-widest uppercase  bg-primary/10 text-primary">
+        <span class="w-1.5 h-1.5 rounded-full animate-pulse bg-primary"></span>
         {badge}
       </div>
 
-      <!-- Main heading — Syne -->
-      <h1 class="font-display font-bold leading-tight mb-6"
-        style="font-size: clamp(2.8rem, 7vw, 5.5rem); line-height: 1.08; letter-spacing: -0.01em;">
+      <h1 class="font-display font-bold mb-6 text-[clamp(2.8rem,7vw,5.5rem)] leading-[1.08] tracking-[-0.01em]">
         <span class="text-foreground">{title}</span>
         <br />
-        <span style="background: linear-gradient(135deg, #5ba3f5 0%, #7c5cfc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        <span class="text-gradient">
           {highlight}
         </span>
       </h1>
 
-      <!-- Description -->
-      <p class="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-muted-foreground">
-        {description}
+      <p class="md:text-xl max-w-3xl mx-auto mb-3 font-bold leading-relaxed">
+        <span>
+          {description1}
+        </span>
       </p>
 
-      <!-- CTAs -->
+      <p class="text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-muted-foreground">
+        {description2}
+      </p>
+
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <a
           href={primaryCta.href}
-          class="group inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300"
-          style="background: linear-gradient(135deg, #4a8fe8, #3b7dd8); box-shadow: 0 0 25px rgba(74,143,232,0.35), inset 0 1px 0 rgba(255,255,255,0.1);"
-          onmouseover="this.style.boxShadow='0 0 40px rgba(74,143,232,0.55), inset 0 1px 0 rgba(255,255,255,0.1)'"
-          onmouseout="this.style.boxShadow='0 0 25px rgba(74,143,232,0.35), inset 0 1px 0 rgba(255,255,255,0.1)'"
+          class="group inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white bg-linear-to-br from-[#f58c5b] to-primary shadow-[0_0_25px] shadow-primary/35 ring-1 ring-inset ring-white/10 transition-all duration-300 hover:shadow-[0_0_40px] hover:shadow-primary/55 hover:-translate-y-0.5"
         >
           {primaryCta.text}
           <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,16 +71,15 @@ const {
         </a>
         <a
           href={secondaryCta.href}
-          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300 border border-primary/20 hover:border-primary/45 bg-primary/[0.04] hover:bg-primary/[0.08]"
+          class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-medium text-foreground/70 hover:text-foreground transition-all duration-300 border border-primary/20 hover:border-primary/45 bg-primary/4 hover:bg-primary/8"
         >
           {secondaryCta.text}
         </a>
       </div>
 
-      <!-- Scroll indicator -->
       <div class="mt-20 flex flex-col items-center gap-2 hero-scroll">
         <span class="text-[10px] tracking-[0.2em] uppercase text-primary">Scroll</span>
-        <div class="w-px h-10 scroll-line scroll-line" style="background: linear-gradient(to bottom, #5ba3f5, transparent);"></div>
+        <div class="w-px h-10 scroll-line"></div>
       </div>
 
     </div>
@@ -99,13 +87,20 @@ const {
 </section>
 
 <style>
+  .grid-bg {
+    background-image: linear-gradient(var(--color-primary, #4a8fe8) 1px, transparent 1px), 
+                      linear-gradient(90deg, var(--color-primary, #4a8fe8) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
   .hero-content {
     animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .scroll-line {
-    width: 1px; height: 40px;
-    background: linear-gradient(to bottom, var(--blue), transparent);
+    width: 1px; 
+    height: 40px;
+    background: linear-gradient(to bottom, var(--color-primary, #4a8fe8), transparent);
     animation: scrollAnim 2s infinite;
   }
 

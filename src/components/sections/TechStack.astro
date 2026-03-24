@@ -17,70 +17,142 @@ interface Props {
 
 const { t } = Astro.props;
 
+// 1. Definimos las claves de los colores que estamos usando
+type ThemeKey = 'yellow' | 'blue' | 'red' | 'orange' | 'green' | 'orangeDark' | 'cyan' | 'pink';
+
+// 2. Creamos el diccionario con todas las clases específicas para cada estado y color
+const THEME_COLORS: Record<ThemeKey, any> = {
+  yellow: {
+    icon: 'text-yellow-400',
+    iconBgHover: 'group-hover:bg-yellow-400/10',
+    border: 'hover:border-yellow-400/40',
+    shadow: 'hover:shadow-yellow-400/15',
+    text: 'group-hover:text-yellow-400',
+    glow: 'group-hover:bg-yellow-400/2',
+  },
+  blue: {
+    icon: 'text-blue-400',
+    iconBgHover: 'group-hover:bg-blue-400/10',
+    border: 'hover:border-blue-400/40',
+    shadow: 'hover:shadow-blue-400/15',
+    text: 'group-hover:text-blue-400',
+    glow: 'group-hover:bg-blue-400/2',
+  },
+  red: {
+    icon: 'text-red-400',
+    iconBgHover: 'group-hover:bg-red-400/10',
+    border: 'hover:border-red-400/40',
+    shadow: 'hover:shadow-red-400/15',
+    text: 'group-hover:text-red-400',
+    glow: 'group-hover:bg-red-400/2',
+  },
+  orange: {
+    icon: 'text-orange-400',
+    iconBgHover: 'group-hover:bg-orange-400/10',
+    border: 'hover:border-orange-400/40',
+    shadow: 'hover:shadow-orange-400/15',
+    text: 'group-hover:text-orange-400',
+    glow: 'group-hover:bg-orange-400/2',
+  },
+  green: {
+    icon: 'text-green-400',
+    iconBgHover: 'group-hover:bg-green-400/10',
+    border: 'hover:border-green-400/40',
+    shadow: 'hover:shadow-green-400/15',
+    text: 'group-hover:text-green-400',
+    glow: 'group-hover:bg-green-400/2',
+  },
+  orangeDark: {
+    icon: 'text-orange-500',
+    iconBgHover: 'group-hover:bg-orange-500/10',
+    border: 'hover:border-orange-500/40',
+    shadow: 'hover:shadow-orange-500/15',
+    text: 'group-hover:text-orange-500',
+    glow: 'group-hover:bg-orange-500/2',
+  },
+  cyan: {
+    icon: 'text-cyan-400',
+    iconBgHover: 'group-hover:bg-cyan-400/10',
+    border: 'hover:border-cyan-400/40',
+    shadow: 'hover:shadow-cyan-400/15',
+    text: 'group-hover:text-cyan-400',
+    glow: 'group-hover:bg-cyan-400/2',
+  },
+  pink: {
+    icon: 'text-pink-400',
+    iconBgHover: 'group-hover:bg-pink-400/10',
+    border: 'hover:border-pink-400/40',
+    shadow: 'hover:shadow-pink-400/15',
+    text: 'group-hover:text-pink-400',
+    glow: 'group-hover:bg-pink-400/2',
+  }
+};
+
 interface TechItem {
   id: string;
   name: string;
   icon: any;
   category: 'sistemas' | 'contenedores' | 'automatizacion' | 'virtualizacion' | 'seguridad' | 'monitorizacion' | 'red' | 'aplicaciones';
-  color: string;
+  theme: ThemeKey; // Cambiamos 'color' por 'theme'
 }
 
+// 3. Asignamos la clave del tema a cada item
 const TECH_STACK: TechItem[] = [
   {
     id: 'linux',
     name: 'Linux',
     icon: Terminal,
     category: 'sistemas',
-    color: 'text-yellow-400',
+    theme: 'yellow',
   },
   {
     id: 'docker',
     name: 'Docker / k3s',
     icon: Container,
     category: 'contenedores',
-    color: 'text-blue-400',
+    theme: 'blue',
   },
   {
     id: 'ansible',
     name: 'Ansible / Terraform',
     icon: Bot,
     category: 'automatizacion',
-    color: 'text-red-400',
+    theme: 'red',
   },
   {
     id: 'proxmox',
     name: 'Proxmox / VMware',
     icon: Server,
     category: 'virtualizacion',
-    color: 'text-orange-400',
+    theme: 'orange',
   },
   {
     id: 'wazuh',
     name: 'Wazuh / Suricata',
     icon: ShieldCheck,
     category: 'seguridad',
-    color: 'text-green-400',
+    theme: 'green',
   },
   {
     id: 'grafana',
     name: 'Grafana / Prometheus',
     icon: BarChart2,
     category: 'monitorizacion',
-    color: 'text-orange-500',
+    theme: 'orangeDark',
   },
   {
     id: 'opnsense',
     name: 'OPNsense',
     icon: Network,
     category: 'red',
-    color: 'text-cyan-400',
+    theme: 'cyan',
   },
   {
     id: 'uptimekuma',
     name: 'Uptime Kuma / ERPNext',
     icon: Activity,
     category: 'aplicaciones',
-    color: 'text-pink-400',
+    theme: 'pink',
   }
 ];
 
@@ -97,26 +169,35 @@ const CATEGORY_COLORS = {
 ---
 
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-  {TECH_STACK.map((tech) => (
-    <div class="group relative p-6 rounded-2xl border border-foreground/15 bg-background/95 backdrop-blur-sm hover:border-primary/40 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1">
-      <div class="flex items-start justify-between mb-4">
-        <div class={clsx("p-3 rounded-xl bg-foreground/5 transition-colors group-hover:bg-primary/10", tech.color)}>
-          <tech.icon className="w-6 h-6" />
-        </div>
-        <span class={clsx("text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border transition-colors", CATEGORY_COLORS[tech.category])}>
-          {t[`techstack.category.${tech.category}`]}
-        </span>
-      </div>
-      
-      <h3 class="text-lg font-bold mb-1 group-hover:text-primary transition-colors italic">
-        {tech.name}
-      </h3>
-      <p class="text-sm text-foreground/90 dark:text-foreground/80 leading-relaxed font-medium">
-        {t[`techstack.item.${tech.id}.desc`]}
-      </p>
+  {TECH_STACK.map((tech) => {
+    // Extraemos el tema para tener un código más limpio abajo
+    const theme = THEME_COLORS[tech.theme];
 
-      {/* Background Glow */}
-      <div class="absolute inset-0 rounded-2xl bg-primary/0 group-hover:bg-primary/2 transition-colors -z-1" />
-    </div>
-  ))}
+    return (
+      <div class={clsx(
+        "group relative p-6 rounded-2xl border border-foreground/15 bg-background/95 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1",
+        theme.border,
+        theme.shadow
+      )}>
+        <div class="flex items-start justify-between mb-4">
+          <div class={clsx("p-3 rounded-xl bg-foreground/5 transition-colors", theme.icon, theme.iconBgHover)}>
+            <tech.icon className="w-6 h-6" />
+          </div>
+          <span class={clsx("text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full border transition-colors", CATEGORY_COLORS[tech.category])}>
+            {t[`techstack.category.${tech.category}`]}
+          </span>
+        </div>
+        
+        <h3 class={clsx("text-lg font-bold mb-1 transition-colors italic", theme.text)}>
+          {tech.name}
+        </h3>
+        <p class="text-sm text-foreground/90 dark:text-foreground/80 leading-relaxed font-medium">
+          {t[`techstack.item.${tech.id}.desc`]}
+        </p>
+
+        {/* Background Glow */}
+        <div class={clsx("absolute inset-0 rounded-2xl bg-primary/0 transition-colors -z-1", theme.glow)} />
+      </div>
+    );
+  })}
 </div>

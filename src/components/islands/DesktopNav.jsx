@@ -36,7 +36,7 @@ export default function DesktopNav({ links, currentPath = '/' }) {
             {link.children ? (
               <button
                 className={`flex items-center gap-1 text-sm font-medium transition-colors bg-transparent border-0 cursor-pointer p-0 ${
-                  hoveredIndex === index || isLinkActive ? 'text-primary dark:text-blue-300' : 'text-foreground/70 hover:text-foreground dark:text-white dark:hover:text-blue-300'
+                  hoveredIndex === index || isLinkActive ? 'text-primary dark:text-primary-300' : 'text-foreground/70 hover:text-foreground dark:text-white dark:hover:text-accent'
                 }`}
                 aria-expanded={hoveredIndex === index}
                 aria-haspopup="true"
@@ -53,7 +53,7 @@ export default function DesktopNav({ links, currentPath = '/' }) {
                 <a 
                     href={link.href}
                     className={`text-sm font-medium transition-colors ${
-                        isLinkActive ? 'text-primary dark:text-blue-300' : 'text-foreground/70 hover:text-foreground dark:text-white dark:hover:text-blue-300'
+                        isLinkActive ? 'text-primary dark:text-primary-300' : 'text-foreground/70 hover:text-foreground dark:text-white dark:hover:text-accent'
                     }`}
                 >
                     {link.label}
@@ -84,10 +84,10 @@ export default function DesktopNav({ links, currentPath = '/' }) {
                              >
                                <div className="flex items-center gap-3">
                                  {Icon && (
-                                   <Icon className="w-5 h-5 text-primary/70 group-hover:text-primary dark:text-white/70 dark:group-hover:text-blue-300 transition-colors" aria-hidden="true" />
+                                   <Icon className="w-5 h-5 text-primary/70 group-hover:text-primary dark:text-white/70 dark:group-hover:text-primary-300 transition-colors" aria-hidden="true" />
                                  )}
                                  <div>
-                                   <div className="font-medium text-foreground group-hover:text-primary dark:text-white dark:group-hover:text-blue-300 transition-colors">
+                                   <div className="font-medium text-foreground group-hover:text-primary dark:text-white dark:group-hover:text-primary-300 transition-colors">
                                      {child.label}
                                    </div>
                                    {child.description && (

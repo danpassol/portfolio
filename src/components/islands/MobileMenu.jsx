@@ -7,9 +7,11 @@ import { ACTION_LINKS } from '~/site.config';
 export default function MobileMenu({ 
   links, 
   currentPath = '/',
+  primaryHref= '/contact',
   labels = {
     menu: 'Menu',
-    getStarted: 'Get Started'
+    getStarted: 'Get Started',
+    clients: ''
   }
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -49,7 +51,7 @@ export default function MobileMenu({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-background/60 backdrop-blur-sm z-[60]"
+              className="fixed inset-0 bg-background/60 backdrop-blur-sm z-60"
               aria-hidden="true"
             />
 
@@ -63,7 +65,7 @@ export default function MobileMenu({
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: '100%', opacity: 0 }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed inset-0 md:inset-auto md:top-0 md:right-0 md:h-full md:w-96 bg-background md:border-l md:border-foreground/10 md:shadow-2xl z-[70] p-6 flex flex-col h-[100dvh] md:h-full"
+              className="fixed inset-0 md:inset-auto md:top-0 md:right-0 md:h-full md:w-96 bg-background md:border-l md:border-foreground/10 md:shadow-2xl z-70 p-6 flex flex-col h-dvh"
             >
               <div className="flex justify-between items-center mb-6">
                 <span className="text-2xl font-bold text-primary md:text-lg">{labels.menu}</span>
@@ -89,8 +91,9 @@ export default function MobileMenu({
                     <li key={link.label}>
                       {link.children ? (
                           <div className="flex flex-col">
+                               {/* Limpiado dark:text-blue-300 */}
                                <div className={`flex items-center justify-between py-2 text-xl md:text-lg font-bold ${
-                                   isLinkActive ? 'text-primary dark:text-blue-300' : 'text-foreground/80 dark:text-white'
+                                   isLinkActive ? 'text-primary' : 'text-foreground/80 dark:text-foreground'
                                }`}>
                                   {link.label}
                                </div>
@@ -104,8 +107,8 @@ export default function MobileMenu({
                                             onClick={() => setIsOpen(false)}
                                             className={`py-2 text-lg md:text-base transition-colors flex items-center gap-3 ${
                                                 isActive(child.href) 
-                                                ? 'text-primary dark:text-blue-300 font-medium' 
-                                                : 'text-foreground hover:text-primary dark:text-white dark:hover:text-blue-300'
+                                                ? 'text-primary font-medium' 
+                                                : 'text-foreground hover:text-primary'
                                             }`}
                                         >
                                             {Icon && <Icon className="w-5 h-5 md:w-4 md:h-4" aria-hidden="true" />}
@@ -119,10 +122,10 @@ export default function MobileMenu({
                           <a
                               href={link.href}
                               onClick={() => setIsOpen(false)}
-                              className={`flex items-center justify-between py-2 text-xl md:text-lg font-bold transition-colors ${
+                              className={`group flex items-center justify-between py-2 text-xl md:text-lg font-bold transition-colors ${
                                   isActive(link.href) 
-                                  ? 'text-primary dark:text-blue-300' 
-                                  : 'text-foreground hover:text-primary dark:text-white dark:hover:text-blue-300'
+                                  ? 'text-primary' 
+                                  : 'text-foreground hover:text-primary'
                               }`}
                           >
                               {link.label}
@@ -142,10 +145,20 @@ export default function MobileMenu({
               </nav>
 
               <div className="pt-6 md:pt-8 border-t border-foreground/10 flex flex-col gap-4 mt-auto">
+                 
+                 {/* Nuevo botón: Acceso a Clientes */}
                  <a 
-                    href={ACTION_LINKS.primary.href}
+                    href="https://clientes.dpastor.eu"
                     onClick={() => setIsOpen(false)}
-                    className="w-full py-3 px-4 bg-primary text-white text-center font-semibold rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25"
+                    className="w-full py-3 px-4 text-center font-medium rounded-lg text-foreground border border-primary/20 bg-primary/5 hover:border-primary/45 hover:bg-primary/10 transition-all"
+                  >
+                    {labels.clients || 'acceso clientes'}
+                  </a>
+
+                 <a 
+                    href={primaryHref}
+                    onClick={() => setIsOpen(false)}
+                    className="w-full py-3 px-4 bg-primary text-primary-foreground text-center font-semibold rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25"
                   >
                     {labels.getStarted}
                   </a>

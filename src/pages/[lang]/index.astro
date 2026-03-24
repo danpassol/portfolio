@@ -3,6 +3,8 @@ import { languages, defaultLang } from '~/i18n/ui';
 import { isRtl, useTranslations } from '~/i18n/utils';
 import { Image } from 'astro:assets';
 import bentoCode from '~/assets/bento-code.jpg';
+import grafanaDash from '~/assets/grafana-dashboard.png'
+import haCluster from '~/assets/ha-cluster.png'
 import Layout from '~/layouts/Layout.astro';
 import Schema from '~/components/layout/Schema.astro';
 import Hero from '~/components/sections/Hero.astro';
@@ -67,82 +69,112 @@ const t = useTranslations(lang);
     <Hero 
         title={t['hero.title']}
         highlight={t['hero.highlight']}
-        description={t['hero.subtitle']}
+        description1={t['hero.subtitle1']}
+        description2={t['hero.subtitle2']}
         primaryCta={{ text: t['hero.getStarted'], href: `/${lang}/contact` }}
         secondaryCta={{ text: t['hero.learnMore'], href: `/${lang}/about` }}
     />
     
-    <!-- <LogoCloud title={t['logo.title']} logos={logos} /> -->
-    
-
 
     <Section class="py-0 overflow-visible">
     <BentoGrid 
         title={t['bento.title']}
         description={t['bento.description']}
     >
-        <!-- Large Item -->
         <BentoItem class="md:col-span-2 group">
-            <div class="absolute top-0 right-0 w-75 h-75 bg-linear-to-br from-primary/20 to-purple-500/20 rounded-full blur-[80px] -mr-20 -mt-20"></div>
             
-            <div class="relative z-10 h-full flex flex-col justify-between">
+            <div slot="background" class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <Image 
+                    src={haCluster} 
+                    alt="Cluster" 
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 z-0" 
+                />
+            </div>
+            
+            <div class="grow flex flex-col justify-between relative z-10 h-full">
                 <div>
-                    <div class="w-12 h-12 rounded-xl bg-primary/10 dark:bg-white/10 flex items-center justify-center mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 dark:bg-white/10 flex items-center justify-center mb-6 relative z-10">
                         <Globe className="w-6 h-6 text-primary dark:text-white" />
                     </div>
-                    <h3 class="text-2xl font-bold mb-2">{t['bento.item1.title']}</h3>
-                    <p class="text-muted-foreground">{t['bento.item1.desc']}</p>
+                    <h3 class="text-2xl font-bold mb-2 text-foreground relative z-10">{t['bento.item1.title']}</h3>
+                    <p class="text-muted-foreground relative z-10 mb-2">{t['bento.item1.desc']}</p>
                 </div>
                 
-                <div class="w-full h-32 bg-foreground/6 rounded-xl border border-foreground/8 backdrop-blur-sm overflow-hidden relative">
-                        <div class="absolute inset-0 flex items-center justify-center text-xs font-mono text-primary/90 font-bold">
-                        running regional_edge_check... <br/>
-                        lat: 12ms | status: active
+                <div class="w-full h-20 bg-foreground/5 rounded-xl border border-foreground/8 backdrop-blur-sm overflow-hidden relative z-10">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="text-xs font-mono text-primary/90 font-bold text-center">
+                            checking pods status... <br/>
+                            quantity: 4 | status: <span class="text-emerald-600 dark:text-emerald-500">healthy</span>
                         </div>
+                    </div>
                 </div>
             </div>
         </BentoItem>
 
-        <!-- Tall Item -->
         <BentoItem class="md:row-span-2 group">
-                <div class="absolute bottom-0 left-0 w-full h-1/2 bg-linear-to-t from-black/50 to-transparent z-10"></div>
-                <Image src={bentoCode} alt="Code" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" />
-                
-                <div class="relative z-20 h-full flex flex-col justify-end">
-                <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-4">
+            
+            <div slot="background" class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+                <Image 
+                    src={bentoCode} 
+                    alt="Code" 
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 z-0" 
+                />
+            </div>
+            
+            <div class="grow flex flex-col justify-end relative z-20 h-full">
+                <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center mb-4 relative z-10">
                     <Cpu className="w-6 h-6 text-white" />
                 </div>
-                <h3 class="text-2xl font-bold mb-2">{t['bento.item2.title']}</h3>
-                <p class="text-muted-foreground text-sm">{t['bento.item2.desc']}</p>
+                <h3 class="text-2xl font-bold mb-2 text-foreground relative z-10">{t['bento.item2.title']}</h3>
+                <p class="text-muted-foreground text-sm relative z-10">{t['bento.item2.desc']}</p>
+            </div>
+        </BentoItem>
+
+        <BentoItem class="group">
+            
+            <div slot="background"></div>
+            
+            <div class="grow flex flex-col justify-center text-center h-full relative z-10">
+                <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center mx-auto mb-4 relative z-10">
+                    <Zap className="w-6 h-6" />
                 </div>
+                <h3 class="text-lg font-bold text-foreground relative z-10">{t['bento.item3.title']}</h3>
+                <p class="text-sm text-muted-foreground mt-2 relative z-10">{t['bento.item3.desc']}</p>
+            </div>
         </BentoItem>
 
-        <!-- Small Item 1 -->
-        <BentoItem class="flex flex-col justify-center text-center hover:bg-white/10 transition-colors">
-            <div class="w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center mx-auto mb-4">
-                <Zap className="w-6 h-6" />
+        <BentoItem class="group">
+            
+            <div slot="background"></div>
+            
+            <div class="grow flex flex-col justify-center text-center h-full relative z-10">
+                <div class="w-12 h-12 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mx-auto mb-4 relative z-10">
+                    <ShieldCheck className="w-6 h-6" />
+                </div>
+                <h3 class="text-lg font-bold text-foreground relative z-10">{t['bento.item4.title']}</h3>
+                <p class="text-sm text-muted-foreground mt-2 relative z-10">{t['bento.item4.desc']}</p>
             </div>
-            <h3 class="text-lg font-bold">{t['bento.item3.title']}</h3>
-            <p class="text-sm text-muted-foreground mt-2">{t['bento.item3.desc']}</p>
-        </BentoItem>
-
-        <!-- Small Item 2 -->
-            <BentoItem class="flex flex-col justify-center text-center hover:bg-white/10 transition-colors">
-            <div class="w-12 h-12 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center mx-auto mb-4">
-                <ShieldCheck className="w-6 h-6" />
-            </div>
-            <h3 class="text-lg font-bold">{t['bento.item4.title']}</h3>
-            <p class="text-sm text-muted-foreground mt-2">{t['bento.item4.desc']}</p>
         </BentoItem>
         
-        <!-- Wide Item -->
-        <BentoItem class="md:col-span-3 flex items-center justify-between gap-8 group">
-            <div class="relative z-10">
-                    <h3 class="text-2xl font-bold mb-2">{t['bento.item5.title']}</h3>
-                    <p class="text-muted-foreground max-w-sm">{t['bento.item5.desc']}</p>
+        <BentoItem class="md:col-span-3 group">
+            
+            <div slot="background">
+                <Image 
+                    src={grafanaDash} 
+                    alt="Dashboard" 
+                    class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 z-0" 
+                />
             </div>
-            <div class="relative z-10 w-32 h-32 shrink-0 bg-linear-to-tr from-primary to-purple-500 rounded-2xl flex items-center justify-center shadow-lg transform rotate-6 group-hover:rotate-12 transition-transform">
-                <BarChart className="w-16 h-16 text-white" />
+            
+            <div class="grow flex items-center justify-between gap-8 h-full relative z-10">
+                <div class="relative z-10 flex flex-col grow">
+                    <h3 class="text-2xl font-bold mb-2 text-foreground">{t['bento.item5.title']}</h3>
+                    <p class="text-muted-foreground max-w-sm">{t['bento.item5.desc']}</p>
+                </div>
+                
+                <div class="relative z-10 w-32 h-32 shrink-0 bg-linear-to-tr from-primary to-purple-500 rounded-2xl flex items-center justify-center shadow-lg transform rotate-6 group-hover:rotate-12 transition-transform">
+                    <BarChart className="w-16 h-16 text-white" />
+                </div>
             </div>
         </BentoItem>
     </BentoGrid>

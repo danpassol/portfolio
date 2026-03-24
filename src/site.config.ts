@@ -8,7 +8,7 @@ export const siteConfig = {
     strategy: 'switch' as 'invert' | 'switch' | 'static',
   },
   ogImage: '/og-image.webp',
-  primaryColor: '#00008B',
+  primaryColor: '#7c5cfc',
   search: {
     enabled: true,
   },

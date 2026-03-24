@@ -1,19 +1,54 @@
 ---
 interface Props {
   class?: string;
-  title?: string;
-  description?: string;
-  icon?: any;
 }
 
-const { class: className, title, description } = Astro.props;
+const { class: className } = Astro.props;
 ---
 
 <div
-  class:list={["rounded-2xl p-8 relative overflow-hidden transition-all duration-300 group", className]}
-  style="background: var(--surface-2); border: 1px solid var(--surface-border);"
-  onmouseover="this.style.borderColor='rgba(74,143,232,0.25)'; this.style.boxShadow='0 8px 40px rgba(74,143,232,0.08)'"
-  onmouseout="this.style.borderColor='rgba(74,143,232,0.12)'; this.style.boxShadow='none'"
+  class:list={[
+    // 1. Contenedor Principal
+    "group relative overflow-hidden rounded-2xl transition-all duration-500 ease-out",
+    "bg-(--surface-2) border border-(--surface-border)",
+    // Levantamiento y borde coloreado dinámico
+    "hover:-translate-y-1 hover:border-primary/30",
+    "hover:shadow-[0_8px_40px_-12px] hover:shadow-primary/20",
+    "dark:hover:shadow-none",
+    className
+  ]}
+  data-bento-item
 >
-  <slot />
+  <div 
+    class="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-500 group-hover:opacity-100 hidden dark:block bg-primary/15 z-0"
+    style="mask-image: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%); -webkit-mask-image: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), black 0%, transparent 100%);"
+  ></div>
+
+  <div 
+    class="pointer-events-none absolute inset-0 z-10 overflow-hidden transition-all duration-700 ease-out opacity-100 translate-y-0 md:opacity-0 group-hover:opacity-100"
+  >
+    <slot name="background" />
+    <div class="absolute inset-0 bg-(--surface-2)/70 dark:bg-(--surface-2)/80 z-10"></div>
+  </div>
+
+  <div class="relative z-20 p-7 h-full flex flex-col">
+    <slot />
+  </div>
 </div>
+
+<script>
+  const initSpotlight = () => {
+    const items = document.querySelectorAll<HTMLElement>('[data-bento-item]');
+    items.forEach(item => {
+      item.addEventListener('mousemove', (e) => {
+        const rect = item.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        item.style.setProperty('--mouse-x', `${x}px`);
+        item.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+  };
+  initSpotlight();
+  document.addEventListener('astro:page-load', initSpotlight);
+</script>

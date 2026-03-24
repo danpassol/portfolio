@@ -1,11 +1,11 @@
 <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <text x="100" y="135" font-family="Arial, sans-serif" font-weight="bold" font-size="100" text-anchor="middle" fill="#ffff">D</text>
+  <text x="100" y="135" font-family="Arial, sans-serif" font-weight="bold" font-size="100" text-anchor="middle" fill="#fff">D</text>
   
-  <g stroke="#3182ce" stroke-width="10" stroke-linecap="square" fill="none">
+  <g stroke="#7c5cfc" stroke-width="10" stroke-linecap="square" fill="none">
     <path d="M60 50 H 30 V 150 H 60"/>
     <path d="M140 50 H 170 V 150 H 140"/>
   </g>
   
-  <rect x="25" y="45" width="10" height="10" fill="#3182ce"/>
-  <rect x="165" y="145" width="10" height="10" fill="#3182ce"/>
+  <rect x="25" y="45" width="10" height="10" fill="#7c5cfc"/>
+  <rect x="165" y="145" width="10" height="10" fill="#7c5cfc"/>
 </svg>
