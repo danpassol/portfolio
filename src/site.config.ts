@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: 'dpastor.eu',
-  description: 'Portfolio de Dani Pastor, administrador de sistemas',
+  description: 'Dani Pastor — Sysadmin, DevOps y ciberseguridad freelance en España. Infraestructura crítica, Kubernetes, Linux y seguridad para empresas.',
   logo: {
     src: '/logo.svg',
     srcDark: '/logo-black.svg',

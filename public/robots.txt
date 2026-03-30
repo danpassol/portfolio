@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: https://dpastor.eu/sitemap-index.xml

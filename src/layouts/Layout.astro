@@ -65,6 +65,27 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
                 ACTION_LINKS.social?.linkedin,
             ].filter(Boolean)
         }} />
+        <Schema item={{
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Daniel Pastor Soler",
+            "url": Astro.site,
+            "jobTitle": "Freelance Sysadmin, DevOps Engineer & IT Security Consultant",
+            "worksFor": {
+                "@type": "Organization",
+                "name": "dpastor.eu"
+            },
+            "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "ES",
+                "addressRegion": "Comunitat Valenciana"
+            },
+            "knowsAbout": ["Linux", "Kubernetes", "DevOps", "Sysadmin", "Cybersecurity", "Docker", "Ansible", "Terraform", "Wazuh", "Grafana", "Infrastructure as Code"],
+            "sameAs": [
+                ACTION_LINKS.social?.github,
+                ACTION_LINKS.social?.linkedin,
+            ].filter(Boolean)
+        }} />
          {Astro.url.pathname !== '/' && (
             <Schema item={{
                 "@context": "https://schema.org",
@@ -99,6 +120,38 @@ const dir = isRtl(lang) ? 'rtl' : 'ltr';
         </script>
 
         <slot name="head" />
+        <!-- Language detection: redirect to browser preferred language on first visit -->
+        <script is:inline>
+            (function() {
+                const path = window.location.pathname;
+                // Solo en la raíz de idioma (homepage de es o en)
+                if (path !== '/es/' && path !== '/en/') return;
+
+                // Si el usuario ya eligió idioma manualmente, respetarlo siempre
+                const stored = localStorage.getItem('lang');
+                if (stored) {
+                    if (path !== '/' + stored + '/') {
+                        window.location.replace('/' + stored + '/');
+                    }
+                    return;
+                }
+
+                // Primera visita: detectar idioma del navegador
+                const browserLang = (navigator.language || 'es').toLowerCase();
+                const prefersSpanish = browserLang.startsWith('es');
+                const targetLang = prefersSpanish ? 'es' : 'en';
+                const targetPath = '/' + targetLang + '/';
+
+                // Guardar preferencia para visitas futuras
+                localStorage.setItem('lang', targetLang);
+
+                // Redirigir solo si es necesario (evita loop)
+                if (path !== targetPath) {
+                    window.location.replace(targetPath);
+                }
+            })();
+        </script>
+
 		</head>
 		<body class="min-h-dvh flex flex-col antialiased bg-background text-foreground">
         <!-- Ambient glow layer -->

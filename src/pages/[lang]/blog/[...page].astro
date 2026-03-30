@@ -57,7 +57,7 @@ const { lang } = Astro.params;
 const t = useTranslations(lang);
 ---
 
-<Layout siteTitle="Blog" description="Read our latest articles">
+<Layout siteTitle={String(t['blog.sitetitle'])} description={String(t['blog.hero.subtitle'])}>
   <PageHeader 
       title={t['blog.hero.title']}
       description={t['blog.hero.subtitle']}

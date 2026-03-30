@@ -31,6 +31,7 @@ const showPicker = displayLanguages.length > 1;
                     <a 
                         href={`/${label}${Astro.url.pathname.replace(new RegExp(`^/(${Object.keys(languages).join('|')})`), '')}`} 
                         class={`block px-4 py-2 text-sm hover:bg-muted transition-colors ${lang === label ? 'text-primary font-bold' : 'text-foreground'}`}
+                        data-lang={label}
                     >
                         {name}
                     </a>
@@ -62,6 +63,16 @@ const showPicker = displayLanguages.length > 1;
                 menu.classList.remove('!opacity-100', '!visible');
                 toggle.setAttribute('aria-expanded', 'false');
             }
+        });
+
+        // Guardar preferencia de idioma al hacer clic en una opción
+        menu.querySelectorAll('a[data-lang]').forEach((link) => {
+            link.addEventListener('click', () => {
+                const selectedLang = (link as HTMLElement).dataset.lang;
+                if (selectedLang) {
+                    localStorage.setItem('lang', selectedLang);
+                }
+            });
         });
     }
 
