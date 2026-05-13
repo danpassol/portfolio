@@ -11,7 +11,7 @@ const { lang } = Astro.params;
 const t = useTranslations(lang);
 ---
 
-<Layout title={t['404.title']} description={t['404.description']}>
+<Layout title={t['404.title']} description={t['404.description']} noindex={true}>
   <div class="min-h-[80vh] flex flex-col items-center justify-center text-center relative overflow-hidden">
       <!-- Background Effect -->
       <div class="absolute inset-0 z-0 flex items-center justify-center opacity-20 pointer-events-none">

@@ -5,7 +5,7 @@ import { ui, defaultLang, languages } from '~/i18n/ui';
 const t = ui[defaultLang] as any;
 ---
 
-<Layout siteTitle={t['404.title']} description={t['404.description']}>
+<Layout siteTitle={t['404.title']} description={t['404.description']} noindex={true}>
   <script is:inline define:vars={{ languages, defaultLang }}>
     // Detect if we are in a sub-path that belongs to a language
     const pathname = window.location.pathname;
