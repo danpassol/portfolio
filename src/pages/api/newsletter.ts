@@ -5,7 +5,7 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     const body = await request.json();
-    const { email } = body;
+    const { email, firstName } = body;
 
     // ── Validación básica ──────────────────────────────────────────
     if (!email?.trim()) {
@@ -42,7 +42,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({
+        email,
+        ...(firstName?.trim() && { first_name: firstName.trim() }),
+        unsubscribed: false,
+      }),
     });
 
     // 200/201 éxito; 409 contacto ya existe → también éxito

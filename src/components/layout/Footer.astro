@@ -26,21 +26,31 @@ const t = useTranslations(lang);
           <!-- Estado: idle / submitting / error -->
           <form
             id="newsletter-form"
-            class="flex gap-2 w-full"
+            class="flex flex-col gap-2 w-full"
             novalidate
           >
-            <label for="newsletter-email" class="sr-only">Email address</label>
-            <input
-              id="newsletter-email"
-              type="email"
-              placeholder={t['footer.newsletter.placeholder']}
-              class="bg-background border border-foreground/10 rounded-full px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-muted-foreground/70 text-foreground transition-all"
-              autocomplete="email"
-            />
+            <div class="flex gap-2 w-full">
+              <label for="newsletter-firstname" class="sr-only">Nombre</label>
+              <input
+                id="newsletter-firstname"
+                type="text"
+                placeholder={t['footer.newsletter.firstname_placeholder']}
+                class="bg-background border border-foreground/10 rounded-full px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-muted-foreground/70 text-foreground transition-all"
+                autocomplete="given-name"
+              />
+              <label for="newsletter-email" class="sr-only">Email address</label>
+              <input
+                id="newsletter-email"
+                type="email"
+                placeholder={t['footer.newsletter.placeholder']}
+                class="bg-background border border-foreground/10 rounded-full px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-muted-foreground/70 text-foreground transition-all"
+                autocomplete="email"
+              />
+            </div>
             <button
               id="newsletter-btn"
               type="submit"
-              class="bg-foreground text-background rounded-full px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="bg-foreground text-background rounded-full mt-1 px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed w-full"
             >
               <span id="newsletter-btn-text">{t['footer.newsletter.button']}</span>
               <svg id="newsletter-spinner" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden animate-spin" aria-hidden="true">
@@ -131,18 +141,20 @@ const t = useTranslations(lang);
     alreadyMsg:   msg_already,
   };
 
-  const form       = document.getElementById('newsletter-form');
-  const input      = document.getElementById('newsletter-email');
-  const btn        = document.getElementById('newsletter-btn');
-  const btnText    = document.getElementById('newsletter-btn-text');
-  const spinner    = document.getElementById('newsletter-spinner');
-  const errorEl    = document.getElementById('newsletter-error');
-  const successEl  = document.getElementById('newsletter-success');
-  const successText = document.getElementById('newsletter-success-text');
+  const form          = document.getElementById('newsletter-form');
+  const firstNameInput = document.getElementById('newsletter-firstname');
+  const input         = document.getElementById('newsletter-email');
+  const btn           = document.getElementById('newsletter-btn');
+  const btnText       = document.getElementById('newsletter-btn-text');
+  const spinner       = document.getElementById('newsletter-spinner');
+  const errorEl       = document.getElementById('newsletter-error');
+  const successEl     = document.getElementById('newsletter-success');
+  const successText   = document.getElementById('newsletter-success-text');
 
   function setLoading(loading) {
     btn.disabled = loading;
     input.disabled = loading;
+    firstNameInput.disabled = loading;
     spinner.classList.toggle('hidden', !loading);
   }
 
@@ -174,7 +186,8 @@ const t = useTranslations(lang);
     e.preventDefault();
     clearError();
 
-    const email = input.value.trim();
+    const email     = input.value.trim();
+    const firstName = firstNameInput.value.trim();
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       showError(msgs.invalidEmail);
@@ -188,13 +201,12 @@ const t = useTranslations(lang);
       const res = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, firstName }),
       });
 
       const data = await res.json();
 
       if (res.ok && data.success) {
-        // 422 ya lo maneja el backend como success, pero por si acaso
         showSuccess(msgs.successMsg);
       } else if (res.status === 422) {
         showSuccess(msgs.alreadyMsg);
