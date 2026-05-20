@@ -20,38 +20,74 @@ const t = useTranslations(lang);
           </p>
         </div>
 
-        <div class="mt-4 w-full">
+        <div class="mt-4 w-full max-w-sm">
           <h3 class="text-sm font-semibold text-foreground mb-2">{t['footer.newsletter.title']}</h3>
-          <form class="flex gap-2 max-w-sm w-full">
+
+          <!-- Estado: idle / submitting / error -->
+          <form
+            id="newsletter-form"
+            class="flex gap-2 w-full"
+            novalidate
+          >
             <label for="newsletter-email" class="sr-only">Email address</label>
-            <input 
+            <input
               id="newsletter-email"
-              type="email" 
+              type="email"
               placeholder={t['footer.newsletter.placeholder']}
-              class="bg-background border border-foreground/10 rounded-full px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-muted-foreground/70 text-foreground"
+              class="bg-background border border-foreground/10 rounded-full px-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-primary/50 placeholder:text-muted-foreground/70 text-foreground transition-all"
+              autocomplete="email"
             />
-            <button type="submit" class="bg-foreground text-background rounded-full px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
-              {t['footer.newsletter.button']}
+            <button
+              id="newsletter-btn"
+              type="submit"
+              class="bg-foreground text-background rounded-full px-4 py-2 text-sm font-medium hover:opacity-90 transition-opacity whitespace-nowrap flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span id="newsletter-btn-text">{t['footer.newsletter.button']}</span>
+              <svg id="newsletter-spinner" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden animate-spin" aria-hidden="true">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+              </svg>
             </button>
           </form>
+
+          <!-- Mensaje de error bajo el input -->
+          <p
+            id="newsletter-error"
+            class="hidden mt-2 text-xs text-red-500 pl-1"
+            role="alert"
+            aria-live="polite"
+          ></p>
+
+          <!-- Estado: success (oculto por defecto) -->
+          <div
+            id="newsletter-success"
+            class="hidden items-center gap-2 py-2"
+            role="status"
+            aria-live="polite"
+          >
+            <div class="shrink-0 w-5 h-5 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <p id="newsletter-success-text" class="text-sm text-foreground/80"></p>
+          </div>
         </div>
       </div>
-      
+
       {Object.entries(FOOTER_LINKS).map(([key, section]) => (
         <div>
           <h3 class="font-semibold mb-4 text-foreground">{t[`footer.${key}` as keyof typeof t] || section.title}</h3>
           <ul class="space-y-2 text-sm text-foreground/90">
             {section.links.map((link: any) => {
-              
               const shouldLocalize = link.localize !== false;
               const href = (!shouldLocalize)
-                ? link.href 
+                ? link.href
                 : `/${lang}${link.href.startsWith('/') ? '' : '/'}${link.href}`.replace(/\/$/, '') || `/${lang}`;
-              
+
               return (
                 <li>
-                  <a 
-                    href={href} 
+                  <a
+                    href={href}
                     class="hover:text-foreground transition-colors"
                     aria-label={t[`footer.${link.label.toLowerCase()}` as keyof typeof t] || link.label}
                   >
@@ -69,7 +105,7 @@ const t = useTranslations(lang);
       <div class="text-muted-foreground text-sm">
         {(t['footer.copyright'] || '').replace('{year}', today.getFullYear().toString())}
       </div>
-      
+
       <div class="flex gap-4">
         <a href={ACTION_LINKS.social.linkedin} target="_blank" rel="noopener noreferrer" class="text-muted-foreground hover:text-foreground transition-colors" aria-label="LinkedIn">
           <Linkedin className="w-5 h-5" strokeWidth={1.5} />
@@ -81,3 +117,94 @@ const t = useTranslations(lang);
     </div>
   </div>
 </footer>
+
+<script define:vars={{
+  msg_invalid_email: t['footer.newsletter.invalid_email'],
+  msg_error:         t['footer.newsletter.error'],
+  msg_success:       t['footer.newsletter.success'],
+  msg_already:       t['footer.newsletter.already'],
+}}>
+  const msgs = {
+    invalidEmail: msg_invalid_email,
+    errorMsg:     msg_error,
+    successMsg:   msg_success,
+    alreadyMsg:   msg_already,
+  };
+
+  const form       = document.getElementById('newsletter-form');
+  const input      = document.getElementById('newsletter-email');
+  const btn        = document.getElementById('newsletter-btn');
+  const btnText    = document.getElementById('newsletter-btn-text');
+  const spinner    = document.getElementById('newsletter-spinner');
+  const errorEl    = document.getElementById('newsletter-error');
+  const successEl  = document.getElementById('newsletter-success');
+  const successText = document.getElementById('newsletter-success-text');
+
+  function setLoading(loading) {
+    btn.disabled = loading;
+    input.disabled = loading;
+    spinner.classList.toggle('hidden', !loading);
+  }
+
+  function showError(msg) {
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+    input.classList.add('border-red-500', 'focus:ring-red-500');
+    input.classList.remove('focus:ring-primary/50');
+  }
+
+  function clearError() {
+    errorEl.classList.add('hidden');
+    errorEl.textContent = '';
+    input.classList.remove('border-red-500', 'focus:ring-red-500');
+    input.classList.add('focus:ring-primary/50');
+  }
+
+  function showSuccess(msg) {
+    form.classList.add('hidden');
+    errorEl.classList.add('hidden');
+    successText.textContent = msg;
+    successEl.classList.remove('hidden');
+    successEl.classList.add('flex');
+  }
+
+  input.addEventListener('input', clearError);
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearError();
+
+    const email = input.value.trim();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showError(msgs.invalidEmail);
+      input.focus();
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        // 422 ya lo maneja el backend como success, pero por si acaso
+        showSuccess(msgs.successMsg);
+      } else if (res.status === 422) {
+        showSuccess(msgs.alreadyMsg);
+      } else {
+        showError(msgs.errorMsg);
+      }
+    } catch {
+      showError(msgs.errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  });
+</script>
